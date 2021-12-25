@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for {@link ExtendedBeanInfoTests}.
+ * Unit tests for {@link _001_ExtendedBeanInfoTests}.
  *
  * @author Chris Beams
  */

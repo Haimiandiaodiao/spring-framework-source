@@ -130,6 +130,7 @@ public class DefaultListableBeanFactoryTests {
 
 
 	@Test
+	//测试未引用的单例被实例化
 	public void testUnreferencedSingletonWasInstantiated() {
 		KnowsIfInstantiated.clearInstantiationRecord();
 		Properties p = new Properties();

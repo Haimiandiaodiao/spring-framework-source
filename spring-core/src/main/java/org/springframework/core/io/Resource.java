@@ -27,13 +27,15 @@ import java.nio.channels.ReadableByteChannel;
 import org.springframework.lang.Nullable;
 
 /**
+ * 从底层资源的实际类型（例如文件或类路径资源）中抽象出来的资源描述符的接口。
+ * 如果 InputStream 以物理形式存在，则可以为每个资源打开它，但只能为某些资源返回 URL 或文件句柄。 实际行为是特定于实现的。
  * Interface for a resource descriptor that abstracts from the actual
  * type of underlying resource, such as a file or class path resource.
  *
  * <p>An InputStream can be opened for every resource if it exists in
  * physical form, but a URL or File handle can just be returned for
  * certain resources. The actual behavior is implementation-specific.
- *
+ * 具体操作资源的接口
  * @author Juergen Hoeller
  * @since 28.12.2003
  * @see #getInputStream()
@@ -57,6 +59,7 @@ public interface Resource extends InputStreamSource {
 	 * existence of a {@code Resource} handle only guarantees a valid
 	 * descriptor handle.
 	 */
+
 	boolean exists();
 
 	/**

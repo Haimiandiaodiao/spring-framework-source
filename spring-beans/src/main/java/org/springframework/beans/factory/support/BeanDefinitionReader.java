@@ -20,7 +20,11 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
-
+/**
+ *  bean 定义阅读器的简单界面。 使用 Resource 和 String 位置参数指定加载方法。
+ * 具体的 bean 定义读者当然可以为 bean 定义添加额外的加载和注册方法，特定于他们的 bean 定义格式。
+ * 请注意，bean 定义阅读器不必实现此接口。 它仅作为想要遵循标准命名约定的 bean 定义读者的建议
+ */
 /**
  * Simple interface for bean definition readers.
  * Specifies load methods with Resource and String location parameters.

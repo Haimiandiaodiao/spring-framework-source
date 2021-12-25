@@ -31,6 +31,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.xml.XmlValidationModeDetector;
 
 /**
+ * Spring 的默认DocumentLoader实现。
+ * 使用标准的 JAXP 配置的 XML 解析器简单地加载documents 。 如果要更改用于加载文档的DocumentBuilder ，那么一种策略是在启动 JVM 时定义相应的 Java 系统属性。 例如，要使用 Oracle DocumentBuilder ，您可以按如下方式启动您的应用程序
  * Spring's default {@link DocumentLoader} implementation.
  *
  * <p>Simply loads {@link Document documents} using the standard JAXP-configured
@@ -68,7 +70,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	@Override
 	public Document loadDocument(InputSource inputSource, EntityResolver entityResolver,
 			ErrorHandler errorHandler, int validationMode, boolean namespaceAware) throws Exception {
-
+		//创建文档创建工厂
 		DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Using JAXP provider [" + factory.getClass().getName() + "]");
@@ -77,7 +79,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		return builder.parse(inputSource);
 	}
 
-	/**
+	/**创建DocumentBuilderFactory实例
 	 * Create the {@link DocumentBuilderFactory} instance.
 	 * @param validationMode the type of validation: {@link XmlValidationModeDetector#VALIDATION_DTD DTD}
 	 * or {@link XmlValidationModeDetector#VALIDATION_XSD XSD})
@@ -113,7 +115,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		return factory;
 	}
 
-	/**
+	/**创建一个 JAXP DocumentBuilder，这个 bean 定义阅读器将用于解析 XML 文档。 可以在子类中覆盖，添加构建器的进一步初始化
 	 * Create a JAXP DocumentBuilder that this bean definition reader
 	 * will use for parsing XML documents. Can be overridden in subclasses,
 	 * adding further initialization of the builder.

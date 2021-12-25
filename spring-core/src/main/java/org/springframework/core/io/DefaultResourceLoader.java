@@ -31,6 +31,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ * ResourceLoader接口的默认实现。 由ResourceEditor ，并作为org.springframework.context.support.AbstractApplicationContext 的基类。 也可以单独使用。
+ * 如果位置值为 URL，则返回UrlResource如果是非 URL 路径或“classpath:”伪 URL，则返回ClassPathResource 。
  * Default implementation of the {@link ResourceLoader} interface.
  * Used by {@link ResourceEditor}, and serves as base class for
  * {@link org.springframework.context.support.AbstractApplicationContext}.
@@ -49,9 +51,9 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 	@Nullable
 	private ClassLoader classLoader;
-
+	//协议解析器
 	private final Set<ProtocolResolver> protocolResolvers = new LinkedHashSet<>(4);
-
+	//线程安全的用于缓存类到资源的应映射
 	private final Map<Class<?>, Map<Resource, ?>> resourceCaches = new ConcurrentHashMap<>(4);
 
 
@@ -143,17 +145,17 @@ public class DefaultResourceLoader implements ResourceLoader {
 	@Override
 	public Resource getResource(String location) {
 		Assert.notNull(location, "Location must not be null");
-
+		//首先尝试使用协议解析器来进行位置的解析
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
 			Resource resource = protocolResolver.resolve(location, this);
 			if (resource != null) {
 				return resource;
 			}
 		}
-
+		//上面解析失败 之后判断资源位置是否是/开头  ，通过具体路径来解析资源
 		if (location.startsWith("/")) {
 			return getResourceByPath(location);
-		}
+		}//再否则的话判断位置是否以classpath:开头 是的话通过classPathResource进行解析
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}

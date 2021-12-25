@@ -19,7 +19,7 @@ package org.springframework.beans.factory.parsing;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 
-/**
+/**通过 bean 定义读取过程传递的上下文，封装了所有相关的配置以及状态
  * Context that gets passed along a bean definition reading process,
  * encapsulating all relevant configuration as well as state.
  *
@@ -28,13 +28,13 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  */
 public class ReaderContext {
-
+	//标识资源位置
 	private final Resource resource;
-
+	//问题报告者
 	private final ProblemReporter problemReporter;
-
+	//读取事件监听器
 	private final ReaderEventListener eventListener;
-
+	//源提取器
 	private final SourceExtractor sourceExtractor;
 
 
@@ -196,7 +196,7 @@ public class ReaderContext {
 		return this.sourceExtractor;
 	}
 
-	/**
+	/**调用给定源对象的源提取器
 	 * Call the source extractor for the given source object.
 	 * @param sourceCandidate the original source object
 	 * @return the source object to store, or {@code null} for none.

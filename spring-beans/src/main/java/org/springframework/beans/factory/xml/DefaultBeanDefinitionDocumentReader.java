@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
-/**
+/**BeanDefinitionDocumentReader接口的默认实现，它根据“spring-beans”DTD 和 XSD 格式（Spring 的默认 XML bean 定义格式）读取 bean 定义
  * Default implementation of the {@link BeanDefinitionDocumentReader} interface that
  * reads bean definitions according to the "spring-beans" DTD and XSD format
  * (Spring's default XML bean definition format).
@@ -76,7 +76,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	//用来通知一些事件，报告一些错误
 	@Nullable
 	private XmlReaderContext readerContext;
 
@@ -84,7 +84,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	private BeanDefinitionParserDelegate delegate;
 
 
-	/**
+	/**此实现根据“spring-beans”XSD（或历史上的 DTD）解析 bean 定义。打开一个 DOM 文档； 然后初始化在<beans/>级别指定的默认设置； 然后解析包含的 bean 定义。
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
 	 * <p>Opens a DOM Document; then initializes the default settings

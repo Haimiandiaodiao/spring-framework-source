@@ -16,11 +16,9 @@
 
 package org.springframework.beans;
 
-import java.beans.BeanInfo;
-import java.beans.IndexedPropertyDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import java.awt.*;
+import java.beans.*;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
 import org.junit.Test;
@@ -38,13 +36,69 @@ import static org.junit.Assert.*;
  * @author Sam Brannen
  * @since 3.1
  */
-public class ExtendedBeanInfoTests {
+public class _001_ExtendedBeanInfoTests {
+	public static class C {
+		private String name;
+		public String getFoo() { return null; }
+	}
+
+
+	public static class D {
+		public String getD() { return null; }
+	}
+	/**
+	 *  定义一个C的描述类
+	 */
+//	public static class CBeanInfo implements BeanInfo{
+//
+//		@Override
+//		public BeanDescriptor getBeanDescriptor() {
+//			BeanDescriptor beanDescriptor = new BeanDescriptor(C.class);
+//			return  beanDescriptor;
+//		}
+//		//为这个Bean绑定一个事件
+//		@Override
+//		public EventSetDescriptor[] getEventSetDescriptors() {
+//			return new EventSetDescriptor[0];
+//		}
+//		@Override
+//		public int getDefaultEventIndex() {
+//			return 0;
+//		}
+//		@Override
+//		public PropertyDescriptor[] getPropertyDescriptors() {
+//			return new PropertyDescriptor[0];
+//		}
+//		@Override
+//		public int getDefaultPropertyIndex() {
+//			return 0;
+//		}
+//		@Override
+//		public MethodDescriptor[] getMethodDescriptors() {
+//			//绑定一个要描述类没有的方法
+//			Method getD = null;
+//			try {
+//				 getD = D.class.getMethod("getD");
+//			} catch (NoSuchMethodException e) {
+//				e.printStackTrace();
+//			}
+//			MethodDescriptor methodDescriptor = new MethodDescriptor(getD);
+//			return new MethodDescriptor[] {methodDescriptor};
+//		}
+//		@Override
+//		public BeanInfo[] getAdditionalBeanInfo() {
+//			return new BeanInfo[0];
+//		}
+//
+//		@Override
+//		public Image getIcon(int iconKind) {
+//			return null;
+//		}
+//	}
 
 	@Test
 	public void standardReadMethodOnly() throws IntrospectionException {
-		@SuppressWarnings("unused") class C {
-			public String getFoo() { return null; }
-		}
+
 
 		BeanInfo bi = Introspector.getBeanInfo(C.class);
 		ExtendedBeanInfo ebi = new ExtendedBeanInfo(bi);
@@ -63,6 +117,7 @@ public class ExtendedBeanInfoTests {
 		}
 
 		BeanInfo bi = Introspector.getBeanInfo(C.class);
+
 		ExtendedBeanInfo ebi = new ExtendedBeanInfo(bi);
 
 		assertThat(hasReadMethodForProperty(bi, "foo"), is(false));
@@ -89,9 +144,12 @@ public class ExtendedBeanInfoTests {
 		assertThat(hasWriteMethodForProperty(ebi, "foo"), is(true));
 	}
 
+
 	@Test
+	//测试ExtendBeanInfo是否支持非标准的写方法
 	public void nonStandardWriteMethodOnly() throws IntrospectionException {
 		@SuppressWarnings("unused") class C {
+			//这个是非标准的写方法
 			public C setFoo(String foo) { return this; }
 		}
 
@@ -136,13 +194,17 @@ public class ExtendedBeanInfoTests {
 		BeanInfo bi = Introspector.getBeanInfo(C.class);
 
 		assertThat(hasReadMethodForProperty(bi, "foo"), is(true));
+		//没有标准写方法
 		assertThat(hasWriteMethodForProperty(bi, "foo"), is(false));
+		//没有索引写方法 其实是有的只是不是标准的
 		assertThat(hasIndexedWriteMethodForProperty(bi, "foo"), is(false));
 
 		BeanInfo ebi = new ExtendedBeanInfo(bi);
 
 		assertThat(hasReadMethodForProperty(ebi, "foo"), is(true));
+		//没有标准写方法
 		assertThat(hasWriteMethodForProperty(ebi, "foo"), is(false));
+		//有索引写方法 ， 是非标准的
 		assertThat(hasIndexedWriteMethodForProperty(ebi, "foo"), is(true));
 	}
 

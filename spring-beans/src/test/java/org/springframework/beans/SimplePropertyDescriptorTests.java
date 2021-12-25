@@ -27,14 +27,16 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
+ * 简单的属性描述符测试
  * @author Chris Beams
- * @see ExtendedBeanInfoTests
+ * @see _001_ExtendedBeanInfoTests
  */
 public class SimplePropertyDescriptorTests {
 
 	@Test
 	public void toStringOutput() throws IntrospectionException, SecurityException, NoSuchMethodException {
 		{
+			//生成简单的属性描述
 			Object pd = new ExtendedBeanInfo.SimplePropertyDescriptor("foo", null, null);
 			assertThat(pd.toString(), containsString(
 					"PropertyDescriptor[name=foo, propertyType=null, readMethod=null"));

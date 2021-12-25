@@ -26,6 +26,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.lang.Nullable;
+//Ant 样式路径模式的PathMatcher实现。
+//此映射代码的一部分是从Apache Ant 善意借用的。
+//映射使用以下规则匹配 URL：
+//? 匹配一个字符
+//*匹配零个或多个字符
+//**匹配路径中的零个或多个目录
+//{spring:[az]+}匹配正则表达式[az]+作为名为“spring”的路径变量
+//例子
+//com/t?st.jsp — 匹配com/test.jsp但也匹配com/tast.jsp或com/txst.jsp
+//com/*.jsp — 匹配com目录中的所有.jsp文件
+//com/**/test.jsp — 匹配com路径下的所有test.jsp文件
+//org/springframework/**/*.jsp — 匹配org/springframework路径下的所有.jsp文件
+//org/**/servlet/bla.jsp — 匹配org/springframework/servlet/bla.jsp但也匹配org/springframework/servlet/bla.jsp org/springframework/testing/servlet/bla.jsp和org/servlet/bla.jsp
+//com/{filename:\\w+}.jsp将匹配com/test.jsp并将值test分配给filename变量
 
 /**
  * {@link PathMatcher} implementation for Ant-style path patterns.

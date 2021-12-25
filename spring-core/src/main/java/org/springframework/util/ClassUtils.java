@@ -167,6 +167,10 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 *  返回要使用的默认 ClassLoader：通常是线程上下文 ClassLoader，如果可用； 加载 ClassUtils 类的 ClassLoader 将用作后备
+	 */
+	/**
+	 *
 	 * Return the default ClassLoader to use: typically the thread context
 	 * ClassLoader, if available; the ClassLoader that loaded the ClassUtils
 	 * class will be used as fallback.

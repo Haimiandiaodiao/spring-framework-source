@@ -36,6 +36,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+/**
+ *  具体的、成熟的BeanDefinition类的基类，分解出GenericBeanDefinition 、 RootBeanDefinition和ChildBeanDefinition通用属性。
+ * 自动装配常量与AutowireCapableBeanFactory接口中定义的常量相匹配
+ */
 
 /**
  * Base class for concrete, full-fledged {@link BeanDefinition} classes,
@@ -89,6 +93,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public static final int AUTOWIRE_CONSTRUCTOR = AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR;
 
 	/**
+	 * 指示通过自省 bean 类确定适当的自动装配策略的常量 已经弃用了
 	 * Constant that indicates determining an appropriate autowire strategy
 	 * through introspection of the bean class.
 	 * @see #setAutowireMode
@@ -123,7 +128,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_ALL = 3;
-
+	/**
+	 *  指示容器应该尝试推断 bean 的destroy method name常量，而不是方法名称的显式规范。 值 "(inferred)" 专门设计用于在方法名称中包含非法字符，确保不会与具有相同名称的合法命名方法发生冲突。
+	 * 当前，如果特定 bean 类中存在，则在 destroy 方法推理期间检测到的方法名称为“close”和“shutdown”。
+	 */
 	/**
 	 * Constant that indicates the container should attempt to infer the
 	 * {@link #setDestroyMethodName destroy method name} for a bean as opposed to
@@ -138,67 +146,79 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 
 	@Nullable
+	//bean的class
 	private volatile Object beanClass;
 
 	@Nullable
+	//作用域
 	private String scope = SCOPE_DEFAULT;
-
+	//抽象标记
 	private boolean abstractFlag = false;
-
+	//是否懒加载初始化
 	private boolean lazyInit = false;
-
+	//autowire的模式
 	private int autowireMode = AUTOWIRE_NO;
-
+	//是否进行依赖检查
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
 
 	@Nullable
+	//依赖检查时的依赖
 	private String[] dependsOn;
-
+	//是否自动装配
 	private boolean autowireCandidate = true;
-
+	//是否是主bean
 	private boolean primary = false;
-
+	//自动装配的预选集
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable
+	//实例化支持
 	private Supplier<?> instanceSupplier;
-
+	//非公开的访问允许
 	private boolean nonPublicAccessAllowed = true;
-
+	//宽松的构造函数解析
 	private boolean lenientConstructorResolution = true;
 
 	@Nullable
+	//工厂的Bean的名字
 	private String factoryBeanName;
 
 	@Nullable
+	//工厂中使用方法的名字
 	private String factoryMethodName;
 
 	@Nullable
+	//构造方法参数
 	private ConstructorArgumentValues constructorArgumentValues;
 
 	@Nullable
+	//可变属性值
 	private MutablePropertyValues propertyValues;
-
+	//方法覆盖
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
 	@Nullable
+	//初始化方法
 	private String initMethodName;
 
 	@Nullable
+	//销毁方法
 	private String destroyMethodName;
-
+	//强制初始化方法
 	private boolean enforceInitMethod = true;
-
+	//强制销毁方法
 	private boolean enforceDestroyMethod = true;
-
+	//合成的
 	private boolean synthetic = false;
-
+	//角色
 	private int role = BeanDefinition.ROLE_APPLICATION;
 
 	@Nullable
+	//描述
 	private String description;
 
 	@Nullable
+	//声明在什么资源中
 	private Resource resource;
 
 
@@ -210,6 +230,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	}
 
 	/**
+	 *  一个数构造方法参数 ，  一个是set属性参数
+	 */
+	/**
 	 * Create a new AbstractBeanDefinition with the given
 	 * constructor argument values and property values.
 	 */
@@ -218,7 +241,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		this.propertyValues = pvs;
 	}
 
-	/**
+	/**通过深层copy来复制一个BeanDefiniton
 	 * Create a new AbstractBeanDefinition as a deep copy of the given
 	 * bean definition.
 	 * @param original the original bean definition to copy from

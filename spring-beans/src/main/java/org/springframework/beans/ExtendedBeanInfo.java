@@ -142,7 +142,7 @@ class ExtendedBeanInfo implements BeanInfo {
 		matches.sort((m1, m2) -> m2.toString().compareTo(m1.toString()));
 		return matches;
 	}
-
+	//是候选写入方法
 	public static boolean isCandidateWriteMethod(Method method) {
 		String methodName = method.getName();
 		int nParams = method.getParameterCount();
@@ -150,7 +150,7 @@ class ExtendedBeanInfo implements BeanInfo {
 				(!void.class.isAssignableFrom(method.getReturnType()) || Modifier.isStatic(method.getModifiers())) &&
 				(nParams == 1 || (nParams == 2 && int.class == method.getParameterTypes()[0])));
 	}
-
+	//处理候选写入方法
 	private void handleCandidateWriteMethod(Method method) throws IntrospectionException {
 		int nParams = method.getParameterCount();
 		String propertyName = propertyNameFor(method);
@@ -206,7 +206,7 @@ class ExtendedBeanInfo implements BeanInfo {
 		}
 		return null;
 	}
-
+	//决策属性的名名字根据set的方法名  如 setFoodName = foodName  setURL = URL
 	private String propertyNameFor(Method method) {
 		return Introspector.decapitalize(method.getName().substring(3));
 	}
@@ -260,6 +260,7 @@ class ExtendedBeanInfo implements BeanInfo {
 
 
 	/**
+	 * 属性描述，属性的写和读方法，海鸥设置了属性的类型和属性的编辑类
 	 * A simple {@link PropertyDescriptor}.
 	 */
 	static class SimplePropertyDescriptor extends PropertyDescriptor {

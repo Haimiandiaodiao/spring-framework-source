@@ -33,6 +33,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+/**
+ *  实现BeanDefinitionReader接口的 bean 定义读取器的抽象基类。
+ * 提供通用属性，例如要处理的 bean 工厂和用于加载 bean 类的类加载器。
+ */
 
 /**
  * Abstract base class for bean definition readers which implement
@@ -50,21 +54,26 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
-
+	//BeanDefinition的注册器
 	private final BeanDefinitionRegistry registry;
-
+	//用来加载资源的
 	@Nullable
 	private ResourceLoader resourceLoader;
-
+	//类加载器
 	@Nullable
 	private ClassLoader beanClassLoader;
-
+	//环境变量
 	private Environment environment;
-
+	//BeanName 生成器
 	private BeanNameGenerator beanNameGenerator = new DefaultBeanNameGenerator();
 
 
 	/**
+	 * 为给定的 bean 工厂创建一个新的 AbstractBeanDefinitionReader。
+	 * 如果传入的 bean factory 不仅实现了 BeanDefinitionRegistry 接口，还实现了 ResourceLoader 接口，它也会作为默认的 ResourceLoader 使用。 这通常是org.springframework.context.ApplicationContext实现的情况。
+	 * 如果给定一个普通的 BeanDefinitionRegistry，默认的 ResourceLoader 将是一个PathMatchingResourcePatternResolver 。
+	 * 如果传入的 bean 工厂也实现了EnvironmentCapable ，那么这个读者将使用它的环境。 否则，阅读器将初始化并使用StandardEnvironment 。 所有 ApplicationContext 实现都是 EnvironmentCapable，而普通的 BeanFactory 实现则不是
+	 *
 	 * Create a new AbstractBeanDefinitionReader for the given bean factory.
 	 * <p>If the passed-in bean factory does not only implement the BeanDefinitionRegistry
 	 * interface but also the ResourceLoader interface, it will be used as default
@@ -85,11 +94,11 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		this.registry = registry;
 
-		// Determine ResourceLoader to use.
+		// Determine ResourceLoader to use.  判断实现是否是可以加载Source资源
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
-		else {
+		else {//如果bean定义注册器没有实现加载资源的能力则这里实例化一个路径匹配的资源解析器
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 

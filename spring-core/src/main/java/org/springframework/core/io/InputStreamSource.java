@@ -30,7 +30,7 @@ import java.io.InputStream;
  * instance, allowing one to read the underlying content stream multiple times.
  * This makes this interface useful as an abstract content source for mail
  * attachments, for example.
- *
+ * 输入流资源 功能就是返回一个输入源
  * @author Juergen Hoeller
  * @since 20.01.2004
  * @see java.io.InputStream

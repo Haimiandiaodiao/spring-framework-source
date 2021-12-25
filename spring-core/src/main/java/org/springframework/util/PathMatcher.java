@@ -18,7 +18,9 @@ package org.springframework.util;
 
 import java.util.Comparator;
 import java.util.Map;
-
+/**
+ *  路径匹配的策略接口 被使用在 PathMatchingResourcePatternResolver  ， AbstractUrlHandlerMapping ， WebContentInterceptor 默认的实现是ant匹配器
+ */
 /**
  * Strategy interface for {@code String}-based path matching.
  *
@@ -69,6 +71,12 @@ public interface PathMatcher {
 	boolean matchStart(String pattern, String path);
 
 	/**
+	 *  给定模式和完整路径，确定模式映射部分。
+	 * 该方法应该通过实际模式找出路径的哪一部分动态匹配，也就是说，它从给定的完整路径中剥离静态定义的前导路径，仅返回路径中实际模式匹配的部分。
+	 * 例如：对于“myroot/*.html”作为模式和“myroot/myfile.html”作为完整路径，这个方法应该返回“myfile.html”。 该PathMatcher的匹配策略指定了详细的判断规则。
+	 * 一个简单的实现可以在实际模式的情况下按原样返回给定的完整路径，在模式不包含任何动态部分的情况下返回空字符串（即pattern参数是一个静态路径，不符合实际pattern ）。 复杂的实现将区分给定路径模式的静态部分和动态部分
+	 */
+	/**
 	 * Given a pattern and a full path, determine the pattern-mapped part.
 	 * <p>This method is supposed to find out which part of the path is matched
 	 * dynamically through an actual pattern, that is, it strips off a statically
@@ -90,6 +98,10 @@ public interface PathMatcher {
 	 */
 	String extractPathWithinPattern(String pattern, String path);
 
+	/**
+	 *  给定模式和完整路径，提取 URI 模板变量。 URI 模板变量通过大括号（“{”和“}”）表示。
+	 * 例如：对于模式“/hotels/{hotel}”和路径“/hotels/1”，此方法将返回包含“hotel”->“1”的地图
+	 */
 	/**
 	 * Given a pattern and a full path, extract the URI template variables. URI template
 	 * variables are expressed through curly brackets ('{' and '}').

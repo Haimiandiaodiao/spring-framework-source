@@ -19,7 +19,7 @@ package org.springframework.beans.factory.parsing;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 
-/**
+/**允许工具控制源元数据如何附加到 bean 定义元数据的简单策略
  * Simple strategy allowing tools to control how source metadata is attached
  * to the bean definition metadata.
  *

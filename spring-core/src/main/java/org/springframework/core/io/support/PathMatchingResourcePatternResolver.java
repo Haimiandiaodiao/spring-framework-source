@@ -200,9 +200,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		}
 	}
 
-
+	//资源加载器用于提供加载Resource的功能
 	private final ResourceLoader resourceLoader;
-
+	//路径匹配器 这里默认是体用ant分隔的解析器
 	private PathMatcher pathMatcher = new AntPathMatcher();
 
 
@@ -280,11 +280,11 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
 			// a class path resource (multiple resources for same name possible)
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
-				// a class path resource pattern
+				// a class path resource pattern 拿到所有jar下匹配模式下的所有路径下的资源
 				return findPathMatchingResources(locationPattern);
 			}
 			else {
-				// all class path resources with the given name
+				// all class path resources with the given name  拿到所有jar下的指定路径的资源
 				return findAllClassPathResources(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()));
 			}
 		}

@@ -38,7 +38,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.DefaultPropertiesPersister;
 import org.springframework.util.PropertiesPersister;
 import org.springframework.util.StringUtils;
-
+/**
+ *
+ 用于简单属性格式的 Bean 定义阅读器。
+ 为 Map/Properties 和 ResourceBundle 提供 bean 定义注册方法。 通常应用于 DefaultListableBeanFactory
+  通俗来讲就是解析map格式的Bean定义 ，来进行Bean的定义
+ */
 /**
  * Bean definition reader for a simple properties format.
  *
@@ -425,30 +430,37 @@ public class PropertiesBeanDefinitionReader extends AbstractBeanDefinitionReader
 			String key = StringUtils.trimWhitespace((String) entry.getKey());
 			if (key.startsWith(prefix + SEPARATOR)) {
 				String property = key.substring(prefix.length() + SEPARATOR.length());
+				//声明对象是哪个class
 				if (CLASS_KEY.equals(property)) {
 					className = StringUtils.trimWhitespace((String) entry.getValue());
 				}
+				//声明实例的父Bean
 				else if (PARENT_KEY.equals(property)) {
 					parent = StringUtils.trimWhitespace((String) entry.getValue());
 				}
+				//声明是不是抽象的
 				else if (ABSTRACT_KEY.equals(property)) {
 					String val = StringUtils.trimWhitespace((String) entry.getValue());
 					isAbstract = TRUE_VALUE.equals(val);
 				}
+				//声明作用域
 				else if (SCOPE_KEY.equals(property)) {
 					// Spring 2.0 style
 					scope = StringUtils.trimWhitespace((String) entry.getValue());
 				}
+				//声明是不是单例的
 				else if (SINGLETON_KEY.equals(property)) {
 					// Spring 1.2 style
 					String val = StringUtils.trimWhitespace((String) entry.getValue());
 					scope = ("".equals(val) || TRUE_VALUE.equals(val) ? GenericBeanDefinition.SCOPE_SINGLETON :
 							GenericBeanDefinition.SCOPE_PROTOTYPE);
 				}
+				//声明是不是要进行懒加载
 				else if (LAZY_INIT_KEY.equals(property)) {
 					String val = StringUtils.trimWhitespace((String) entry.getValue());
 					lazyInit = TRUE_VALUE.equals(val);
 				}
+				//声明构造采参数
 				else if (property.startsWith(CONSTRUCTOR_ARG_PREFIX)) {
 					if (property.endsWith(REF_SUFFIX)) {
 						int index = Integer.parseInt(property.substring(1, property.length() - REF_SUFFIX.length()));

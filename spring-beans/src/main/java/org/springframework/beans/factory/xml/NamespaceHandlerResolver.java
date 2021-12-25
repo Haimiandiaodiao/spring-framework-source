@@ -30,7 +30,7 @@ import org.springframework.lang.Nullable;
 @FunctionalInterface
 public interface NamespaceHandlerResolver {
 
-	/**
+	/**解析命名空间 URI 并返回定位的NamespaceHandler实现。
 	 * Resolve the namespace URI and return the located {@link NamespaceHandler}
 	 * implementation.
 	 * @param namespaceUri the relevant namespace URI

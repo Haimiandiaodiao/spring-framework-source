@@ -16,6 +16,8 @@
 
 package org.springframework.beans.factory;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,8 @@ import static org.springframework.tests.TestResourceUtils.*;
 public class BeanFactoryUtilsTests {
 
 	private static final Class<?> CLASS = BeanFactoryUtilsTests.class;
+	//这几个目录地址在  F:\JavaProject\source\spring\spring-framework\spring-beans\src\test\resources\org\springframework\beans\factory\BeanFactoryUtilsTests-leaf.xml
+	//组装要查询的xml文件的名字BeanFactoryUtilsTests-root.xml,BeanFactoryUtilsTests-middle.xml,BeanFactoryUtilsTests-leaf.xml
 	private static final Resource ROOT_CONTEXT = qualifiedResource(CLASS, "root.xml");
 	private static final Resource MIDDLE_CONTEXT = qualifiedResource(CLASS, "middle.xml");
 	private static final Resource LEAF_CONTEXT = qualifiedResource(CLASS, "leaf.xml");
@@ -58,6 +62,13 @@ public class BeanFactoryUtilsTests {
 
 	private DefaultListableBeanFactory dependentBeansFactory;
 
+
+	@Test
+	public void name() throws IOException {
+		//查看这几xml的路径
+		URL url = ROOT_CONTEXT.getURL();
+		System.out.println(url);
+	}
 
 	@Before
 	public void setUp() {
