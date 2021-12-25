@@ -24,11 +24,12 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
+ *  用于测试ExtendedBeanInfoFactory 的如果没有非标准的set 则不会创建BeanInfo
  * Unit tests for {@link _001_ExtendedBeanInfoTests}.
  *
  * @author Chris Beams
  */
-public class ExtendedBeanInfoFactoryTests {
+public class _004_ExtendedBeanInfoFactoryTests {
 
 	private ExtendedBeanInfoFactory factory = new ExtendedBeanInfoFactory();
 

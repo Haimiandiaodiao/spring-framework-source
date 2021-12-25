@@ -27,11 +27,11 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
- * 简单的属性描述符测试
+ * 测试简单的属性描述类  在ExtendBeanInfo下的SimplePropertyDescriptor
  * @author Chris Beams
  * @see _001_ExtendedBeanInfoTests
  */
-public class SimplePropertyDescriptorTests {
+public class _003_SimplePropertyDescriptorTests {
 
 	@Test
 	public void toStringOutput() throws IntrospectionException, SecurityException, NoSuchMethodException {
