@@ -23,10 +23,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * 属性访问工具测试-本测试测试返回规范的属性名
  * @author Juergen Hoeller
  * @author Chris Beams
  */
-public class PropertyAccessorUtilsTests {
+public class _002_PropertyAccessorUtilsTests {
 
 	@Test
 	public void testCanonicalPropertyName() {
