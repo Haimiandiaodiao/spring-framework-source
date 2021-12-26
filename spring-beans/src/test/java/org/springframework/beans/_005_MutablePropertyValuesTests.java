@@ -24,13 +24,14 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
+ * 测试PropertyValue集合就相当于是一个map  每个item 都是第一个PropertyValue
  * Tests for {@link MutablePropertyValues}.
  *
  * @author Rod Johnson
  * @author Chris Beams
  * @author Juergen Hoeller
  */
-public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
+public class _005_MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 
 	@Test
 	public void testValid() {
@@ -63,6 +64,7 @@ public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 	}
 
 	@Test
+	//查看变化的条目
 	public void testChangesOnEquals() {
 		MutablePropertyValues pvs = new MutablePropertyValues();
 		pvs.addPropertyValue(new PropertyValue("forname", "Tony"));
@@ -74,6 +76,7 @@ public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 	}
 
 	@Test
+	//查看变化的条目
 	public void testChangeOfOneField() {
 		MutablePropertyValues pvs = new MutablePropertyValues();
 		pvs.addPropertyValue(new PropertyValue("forname", "Tony"));

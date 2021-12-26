@@ -19,7 +19,9 @@ package org.springframework.beans;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
-
+/**
+ *  作为 bean 定义一部分的键值样式属性的持有者。 除了键值对之外，还跟踪定义源。
+ */
 /**
  * Holder for a key-value style attribute that is part of a bean definition.
  * Keeps track of the definition source in addition to the key-value pair.

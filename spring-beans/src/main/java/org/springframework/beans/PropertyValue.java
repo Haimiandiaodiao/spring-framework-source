@@ -21,7 +21,10 @@ import java.io.Serializable;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
-
+/**
+ *  用于保存单个 bean 属性的信息和值的对象。 在这里使用对象，而不是仅仅将所有属性存储在以属性名称为键的映射中，可以提供更大的灵活性，并能够以优化的方式处理索引属性等
+ *  注意value的值不是最总需要的值，一个BeanWrapper 的实现应该可以处理任意必须的转换， 因为这个对象不知道要被放到什么地方进行使用
+ */
 /**
  * Object to hold information and value for an individual bean property.
  * Using an object here, rather than just storing all properties in
