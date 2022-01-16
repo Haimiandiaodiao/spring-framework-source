@@ -42,6 +42,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ *  封装 Java Type ，提供对supertypes 、 interfaces和generic parameters以及最终resolve为Class的能力。
+ */
+/**
  * Encapsulates a Java {@link java.lang.reflect.Type}, providing access to
  * {@link #getSuperType() supertypes}, {@link #getInterfaces() interfaces}, and
  * {@link #getGeneric(int...) generic parameters} along with the ability to ultimately
@@ -95,6 +98,7 @@ public class ResolvableType implements Serializable {
 
 
 	/**
+	 * Java 中的Type
 	 * The underlying Java type being managed.
 	 */
 	private final Type type;
@@ -121,6 +125,9 @@ public class ResolvableType implements Serializable {
 	private final Integer hash;
 
 	@Nullable
+	/**
+	 *  解析之后具体的本身的类型
+	 */
 	private Class<?> resolved;
 
 	@Nullable
@@ -133,7 +140,7 @@ public class ResolvableType implements Serializable {
 	private volatile ResolvableType[] generics;
 
 
-	/**
+	/**用于为缓存键目的创建新的ResolvableType的私有构造函数
 	 * Private constructor used to create a new {@link ResolvableType} for cache key purposes,
 	 * with no upfront resolution.
 	 */
@@ -382,6 +389,9 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
+	 *  返回表示数组组件类型的 ResolvableType，如果此类型不表示数组，则返回NONE
+	 */
+	/**
 	 * Return the ResolvableType representing the component type of the array or
 	 * {@link #NONE} if this type does not represent an array.
 	 * @see #isArray()
@@ -425,6 +435,9 @@ public class ResolvableType implements Serializable {
 		return as(Map.class);
 	}
 
+	/**
+	 *  将此类型作为指定类的ResolvableType返回。 搜索supertype和interface层次结构以查找匹配项，如果此类型未实现或扩展指定的类，则返回NONE
+	 */
 	/**
 	 * Return this type as a {@link ResolvableType} of the specified class. Searches
 	 * {@link #getSuperType() supertype} and {@link #getInterfaces() interface}
@@ -810,6 +823,8 @@ public class ResolvableType implements Serializable {
 		return resolveType().resolve();
 	}
 
+
+
 	/**
 	 * Resolve this type by a single level, returning the resolved value or {@link #NONE}.
 	 * <p>Note: The returned {@link ResolvableType} should only be used as an intermediary
@@ -996,7 +1011,9 @@ public class ResolvableType implements Serializable {
 	public static ResolvableType forClass(@Nullable Class<?> clazz) {
 		return new ResolvableType(clazz);
 	}
-
+	/**
+	 *  返回指定Class的ResolvableType ，仅对原始类进行可分配性检查（类似于Class.isAssignableFrom ，它用作包装器。
+	 */
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Class},
 	 * doing assignability checks against the raw class only (analogous to
@@ -1044,7 +1061,7 @@ public class ResolvableType implements Serializable {
 		return (asType == NONE ? forType(baseType) : asType);
 	}
 
-	/**
+	/**使用预先声明的泛型返回指定Class的ResolvableType
 	 * Return a {@link ResolvableType} for the specified {@link Class} with pre-declared generics.
 	 * @param clazz the class (or interface) to introspect
 	 * @param generics the generics of the class
@@ -1073,7 +1090,7 @@ public class ResolvableType implements Serializable {
 		Assert.notNull(generics, "Generics array must not be null");
 		TypeVariable<?>[] variables = clazz.getTypeParameters();
 		Assert.isTrue(variables.length == generics.length, "Mismatched number of generics specified");
-
+		Type genericSuperclass = clazz.getGenericSuperclass();
 		Type[] arguments = new Type[generics.length];
 		for (int i = 0; i < generics.length; i++) {
 			ResolvableType generic = generics[i];
@@ -1439,7 +1456,9 @@ public class ResolvableType implements Serializable {
 		SerializableTypeWrapper.cache.clear();
 	}
 
-
+	/**
+	 *  用于解析TypeVariables的策略
+	 */
 	/**
 	 * Strategy interface used to resolve {@link TypeVariable TypeVariables}.
 	 */
@@ -1477,6 +1496,9 @@ public class ResolvableType implements Serializable {
 
 
 	@SuppressWarnings("serial")
+	/**
+	 * 服务于像A<T,X,Z> 这样的泛型
+	 */
 	private static class TypeVariablesVariableResolver implements VariableResolver {
 
 		private final TypeVariable<?>[] variables;
@@ -1663,11 +1685,11 @@ public class ResolvableType implements Serializable {
 
 
 	/**
+	 * 用于表示空置的空值Type，Type 使用表示类型的类  子类有Class：表示是个普通对象类 GenericArrayType：泛型化数组类型   ，ParameterType：参数泛型对象，WildcardType:？号通配符type
 	 * Internal {@link Type} used to represent an empty value.
 	 */
 	@SuppressWarnings("serial")
 	static class EmptyType implements Type, Serializable {
-
 		static final Type INSTANCE = new EmptyType();
 
 		Object readResolve() {

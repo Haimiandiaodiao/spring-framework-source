@@ -22,11 +22,13 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
+ * PropertyMatches为了进行属性名的模糊匹配
+ * 使用了Levenshtein 求字符串的相似度
  * Tests for {@link PropertyMatches}.
  *
  * @author Stephane Nicoll
  */
-public class PropertyMatchesTests {
+public class _007_PropertyMatchesTests {
 
 	@Test
 	public void simpleBeanPropertyTypo() {

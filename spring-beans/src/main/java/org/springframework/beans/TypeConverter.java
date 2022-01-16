@@ -21,7 +21,10 @@ import java.lang.reflect.Field;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
-
+/**
+ * 定义类型转换方法的接口。 通常（但不一定）与PropertyEditorRegistry接口一起实现。
+ * 注意：由于 TypeConverter 实现通常基于非线程安全的PropertyEditors ，因此 TypeConverter 本身也不被视为线程安全的。
+ */
 /**
  * Interface that defines type conversion methods. Typically (but not necessarily)
  * implemented in conjunction with the {@link PropertyEditorRegistry} interface.
@@ -36,7 +39,10 @@ import org.springframework.lang.Nullable;
  * @see BeanWrapperImpl
  */
 public interface TypeConverter {
-
+	/**
+	 *  将值转换为所需的类型（如有必要，从字符串）。
+	 * 从 String 到任何类型的转换通常使用 PropertyEditor 类的setAsText方法，或 ConversionService 中的 Spring Converter
+	 */
 	/**
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
@@ -53,7 +59,11 @@ public interface TypeConverter {
 	 */
 	@Nullable
 	<T> T convertIfNecessary(@Nullable Object value, @Nullable Class<T> requiredType) throws TypeMismatchException;
-
+	/**
+	 *  将值转换为所需的类型（如有必要，从字符串）。
+	 * 从 String 到任何类型的转换通常使用 PropertyEditor 类的setAsText方法，或 ConversionService 中的 Spring Converter
+	 * methodParam – 作为转换目标的方法参数（用于泛型分析；可能为null ）
+	 */
 	/**
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
@@ -73,7 +83,9 @@ public interface TypeConverter {
 	@Nullable
 	<T> T convertIfNecessary(@Nullable Object value, @Nullable Class<T> requiredType,
 			@Nullable MethodParameter methodParam) throws TypeMismatchException;
-
+	/**
+	 *  field – 作为转换目标的反射字段（用于分析泛型类型；可能为null ）
+	 */
 	/**
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}
@@ -93,7 +105,9 @@ public interface TypeConverter {
 	@Nullable
 	<T> T convertIfNecessary(@Nullable Object value, @Nullable Class<T> requiredType, @Nullable Field field)
 			throws TypeMismatchException;
-
+	/**
+	 *  typeDescriptor – 要使用的类型描述符（可能为null ））
+	 */
 	/**
 	 * Convert the value to the required type (if necessary from a String).
 	 * <p>Conversions from String to any type will typically use the {@code setAsText}

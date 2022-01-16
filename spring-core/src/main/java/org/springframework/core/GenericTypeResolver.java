@@ -278,6 +278,9 @@ public final class GenericTypeResolver {
 
 
 	@SuppressWarnings({"serial", "rawtypes"})
+	/**
+	 *  服务于像A<MAP<>>
+	 */
 	private static class TypeVariableMapVariableResolver implements ResolvableType.VariableResolver {
 
 		private final Map<TypeVariable, Type> typeVariableMap;

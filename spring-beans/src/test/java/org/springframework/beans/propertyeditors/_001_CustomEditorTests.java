@@ -53,7 +53,7 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for the various PropertyEditors in Spring.
- *
+ * 测试PropertyEditor在spring中的使用
  * @author Juergen Hoeller
  * @author Rick Evans
  * @author Rob Harrop
@@ -61,7 +61,7 @@ import static org.junit.Assert.*;
  * @author Chris Beams
  * @since 10.06.2003
  */
-public class CustomEditorTests {
+public class _001_CustomEditorTests {
 
 	@Test
 	public void testComplexObject() {
@@ -300,10 +300,13 @@ public class CustomEditorTests {
 	}
 
 	@Test
+	/**
+	 *  自定义的布尔属性编辑器
+	 */
 	public void testCustomBooleanEditorWithSpecialTrueAndFalseStrings() throws Exception {
 		String trueString = "pechorin";
 		String falseString = "nash";
-
+		//为真的的字符串为假的字符串 是否允许为空
 		CustomBooleanEditor editor = new CustomBooleanEditor(trueString, falseString, false);
 
 		editor.setAsText(trueString);

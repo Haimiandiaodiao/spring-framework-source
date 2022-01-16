@@ -24,7 +24,9 @@ import java.util.List;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
-
+/**
+ *  根据可配置的距离计算属性匹配的助手类。 提供潜在匹配项的列表以及生成错误消息的简单方法。 适用于 java bean 属性和字段
+ */
 /**
  * Helper class for calculating property matches, according to a configurable
  * distance. Provide the list of potential matches and an easy way to generate

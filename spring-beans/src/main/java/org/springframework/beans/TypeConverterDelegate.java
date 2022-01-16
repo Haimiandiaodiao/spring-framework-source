@@ -38,8 +38,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
+/**
+ *  内部的辅助器帮助转换一个值到指定的类型。工作在一个PropertyEditorRegistrySupport实例上
+ *  被当作一个代理使用在 BeanWrapperImpl 和 SimpleTypeConverter 上
+ */
 
 /**
+ * 
  * Internal helper class for converting property values to target types.
  *
  * <p>Works on a given {@link PropertyEditorRegistrySupport} instance.
@@ -119,7 +124,7 @@ class TypeConverterDelegate {
 		PropertyEditor editor = this.propertyEditorRegistry.findCustomEditor(requiredType, propertyName);
 
 		ConversionFailedException conversionAttemptEx = null;
-
+		//没有拿到用户自定义的属性编辑器的时候 && 设置存在有转换器服务器   ->让转换器服务器 来进行转换操作
 		// No custom editor but custom ConversionService specified?
 		ConversionService conversionService = this.propertyEditorRegistry.getConversionService();
 		if (editor == null && conversionService != null && newValue != null && typeDescriptor != null) {

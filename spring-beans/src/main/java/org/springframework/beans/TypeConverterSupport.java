@@ -24,7 +24,9 @@ import org.springframework.core.convert.ConverterNotFoundException;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-
+/**
+ *  实现了基础的TypeConverter接口，并使用一个私有包的代理类 TypeConverterDelegate  来完成功能 ，主要作为BeanWrapperImpl的基类
+ */
 /**
  * Base implementation of the {@link TypeConverter} interface, using a package-private delegate.
  * Mainly serves as base class for {@link BeanWrapperImpl}.

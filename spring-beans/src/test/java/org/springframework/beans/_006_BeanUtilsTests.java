@@ -46,6 +46,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
+ * 测试BeanUtil 提供便捷的操作Bean的方法,提供属性copy ，对象构造， 签名方法的获取是否是基础类型的判断
  * Unit tests for {@link BeanUtils}.
  *
  * @author Juergen Hoeller
@@ -54,15 +55,17 @@ import static org.junit.Assert.fail;
  * @author Sam Brannen
  * @since 19.05.2003
  */
-public class BeanUtilsTests {
+public class _006_BeanUtilsTests {
 
 	@Test
 	public void testInstantiateClass() {
 		// give proper class
+		//通过反射创建一个对象的实例
 		BeanUtils.instantiateClass(ArrayList.class);
 
 		try {
 			// give interface
+			//不能实例化接口
 			BeanUtils.instantiateClass(List.class);
 			fail("Should have thrown FatalBeanException");
 		}
@@ -72,6 +75,7 @@ public class BeanUtilsTests {
 
 		try {
 			// give class without default constructor
+			//因为要使用无参的构造方法，但是这个类是没有无参构造的
 			BeanUtils.instantiateClass(CustomDateEditor.class);
 			fail("Should have thrown FatalBeanException");
 		}
@@ -100,6 +104,7 @@ public class BeanUtilsTests {
 	}
 
 	@Test
+	//找到指定Bean的属性编辑器
 	public void testFindEditorByConvention() {
 		assertEquals(ResourceEditor.class, BeanUtils.findEditorByConvention(Resource.class).getClass());
 	}
@@ -114,6 +119,7 @@ public class BeanUtilsTests {
 		assertTrue("Name empty", tb2.getName() == null);
 		assertTrue("Age empty", tb2.getAge() == 0);
 		assertTrue("Touchy empty", tb2.getTouchy() == null);
+		//CopyProperties中也是使用了BeanInfo中的方法
 		BeanUtils.copyProperties(tb, tb2);
 		assertTrue("Name copied", tb2.getName().equals(tb.getName()));
 		assertTrue("Age copied", tb2.getAge() == tb.getAge());
@@ -334,6 +340,7 @@ public class BeanUtilsTests {
 	}
 
 	private void assertIsSimpleProperty(Class<?> type) {
+		//简单属性包含了简单属性的数组
 		assertTrue("Type [" + type.getName() + "] should be a simple property", BeanUtils.isSimpleProperty(type));
 	}
 

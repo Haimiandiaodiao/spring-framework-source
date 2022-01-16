@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.lang.Nullable;
-
+/**
+ *  用于使用反射 API 和处理反射异常的简单实用程序类
+ */
 /**
  * Simple utility class for working with the reflection API and handling
  * reflection exceptions.

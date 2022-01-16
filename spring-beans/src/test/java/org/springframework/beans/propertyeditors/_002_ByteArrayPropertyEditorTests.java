@@ -23,35 +23,38 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for the {@link CharArrayPropertyEditor} class.
- *
+ * Unit tests for the {@link ByteArrayPropertyEditor} class.
+ * 测试字节数组属性编辑器
  * @author Rick Evans
  */
-public class CharArrayPropertyEditorTests {
+public class _002_ByteArrayPropertyEditorTests {
 
-	private final PropertyEditor charEditor = new CharArrayPropertyEditor();
+	private final PropertyEditor byteEditor = new ByteArrayPropertyEditor();
 
 	@Test
 	public void sunnyDaySetAsText() throws Exception {
 		final String text = "Hideous towns make me throw... up";
-		charEditor.setAsText(text);
+		byteEditor.setAsText(text);
 
-		Object value = charEditor.getValue();
+		Object value = byteEditor.getValue();
 		assertNotNull(value);
-		assertTrue(value instanceof char[]);
-		char[] chars = (char[]) value;
+		assertTrue(value instanceof byte[]);
+		byte[] bytes = (byte[]) value;
 		for (int i = 0; i < text.length(); ++i) {
-			assertEquals("char[] differs at index '" + i + "'", text.charAt(i), chars[i]);
+			assertEquals("cyte[] differs at index '" + i + "'", text.charAt(i), bytes[i]);
 		}
-		assertEquals(text, charEditor.getAsText());
+		assertEquals(text, byteEditor.getAsText());
 	}
 
 	@Test
+	/**
+	 *  null 会返回 "" 空串
+	 */
 	public void getAsTextReturnsEmptyStringIfValueIsNull() throws Exception {
-		assertEquals("", charEditor.getAsText());
+		assertEquals("", byteEditor.getAsText());
 
-		charEditor.setAsText(null);
-		assertEquals("", charEditor.getAsText());
+		byteEditor.setAsText(null);
+		assertEquals("", byteEditor.getAsText());
 	}
 
 }

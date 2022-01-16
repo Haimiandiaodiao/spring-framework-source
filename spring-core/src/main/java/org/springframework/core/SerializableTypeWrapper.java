@@ -220,7 +220,7 @@ final class SerializableTypeWrapper {
 		}
 	}
 
-
+	/**source 2022/01/16 通过Fild来构建Resolvable的时候用来存储Filed的上下文信息的*/
 	/**
 	 * {@link TypeProvider} for {@link Type Types} obtained from a {@link Field}.
 	 */
@@ -285,6 +285,7 @@ final class SerializableTypeWrapper {
 			this.parameterIndex = methodParameter.getParameterIndex();
 			this.methodParameter = methodParameter;
 		}
+
 
 		@Override
 		public Type getType() {

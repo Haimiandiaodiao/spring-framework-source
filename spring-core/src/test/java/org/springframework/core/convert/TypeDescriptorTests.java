@@ -39,6 +39,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.core.ResolvableType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -56,6 +57,15 @@ import static org.junit.Assert.*;
  */
 @SuppressWarnings("rawtypes")
 public class TypeDescriptorTests {
+	@Test
+	public void baseUse() throws Exception {
+		ResolvableType testParameterPrimitive = ResolvableType.forMethodParameter(new MethodParameter(getClass().getMethod("testParameterPrimitive", int.class), 0));
+		Class<?> resolve = testParameterPrimitive.resolve();
+		System.out.println(resolve);
+
+
+	}
+
 
 	@Test
 	public void parameterPrimitive() throws Exception {

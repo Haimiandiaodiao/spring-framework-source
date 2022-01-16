@@ -21,7 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import org.springframework.util.Assert;
-
+/**source 2022/01/16 用来参数化变参泛型的 */
 /**
  * The purpose of this class is to enable capturing and passing a generic
  * {@link Type}. In order to capture the generic type and retain it at runtime,

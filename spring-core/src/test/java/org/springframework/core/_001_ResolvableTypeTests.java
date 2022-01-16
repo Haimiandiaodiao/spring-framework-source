@@ -57,7 +57,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
-
+/**
+ *  2022-01-15
+ *  可以解析泛型的类型解析器
+ *
+ */
 /**
  * Tests for {@link ResolvableType}.
  *
@@ -66,8 +70,8 @@ import static org.mockito.BDDMockito.*;
  * @author Sebastien Deleuze
  */
 @SuppressWarnings("rawtypes")
-@RunWith(MockitoJUnitRunner.class)
-public class ResolvableTypeTests {
+//@RunWith(MockitoJUnitRunner.class)
+public class _001_ResolvableTypeTests {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -79,23 +83,40 @@ public class ResolvableTypeTests {
 	@Test
 	public void noneReturnValues() throws Exception {
 		ResolvableType none = ResolvableType.NONE;
+		//as()将resolvableType 将此类型作为指定类的ResolvableType返回。NONE的as 还是NONE
 		assertThat(none.as(Object.class), equalTo(ResolvableType.NONE));
+		//作为Collection返回
 		assertThat(none.asCollection(), equalTo(ResolvableType.NONE));
+		//作为Map返回
 		assertThat(none.asMap(), equalTo(ResolvableType.NONE));
+		//解析类型本质类型
 		assertThat(none.getComponentType(), equalTo(ResolvableType.NONE));
+		//解析泛型第0个的泛型类型
 		assertThat(none.getGeneric(0), equalTo(ResolvableType.NONE));
+		//解析所有的泛型
 		assertThat(none.getGenerics().length, equalTo(0));
+		//解析所有的接口
 		assertThat(none.getInterfaces().length, equalTo(0));
+		//解析超类的类型
 		assertThat(none.getSuperType(), equalTo(ResolvableType.NONE));
+		//得到没有解析的Type jdk的Type类型
 		assertThat(none.getType(), equalTo(ResolvableType.EmptyType.INSTANCE));
+		//是存在泛型
 		assertThat(none.hasGenerics(), equalTo(false));
+		//是否是数组
 		assertThat(none.isArray(), equalTo(false));
+		//解析到基本Class类型非泛型
 		assertThat(none.resolve(), nullValue());
+		//解析不到默认返回的类型
 		assertThat(none.resolve(String.class), equalTo((Class) String.class));
+		//每个参数深度增加一层，数字标识获取第几个泛型的类型解析下去
 		assertThat(none.resolveGeneric(0), nullValue());
+		//解析第一层所有泛型的解析到基本Class类型非泛型
 		assertThat(none.resolveGenerics().length, equalTo(0));
 		assertThat(none.toString(), equalTo("?"));
+		//具有不可解析的泛型
 		assertThat(none.hasUnresolvableGenerics(), equalTo(false));
+		//是否是实现
 		assertThat(none.isAssignableFrom(ResolvableType.forClass(Object.class)), equalTo(false));
 	}
 
@@ -110,6 +131,7 @@ public class ResolvableTypeTests {
 
 	@Test
 	public void forClassWithNull() throws Exception {
+		//为空的时候其中的type 是Object
 		ResolvableType type = ResolvableType.forClass(null);
 		assertThat(type.getType(), equalTo((Type) Object.class));
 		assertThat(type.getRawClass(), equalTo(Object.class));
@@ -119,6 +141,7 @@ public class ResolvableTypeTests {
 
 	@Test
 	public void forRawClass() throws Exception {
+		//构建屏蔽泛型信息的
 		ResolvableType type = ResolvableType.forRawClass(ExtendsList.class);
 		assertThat(type.getType(), equalTo((Type) ExtendsList.class));
 		assertThat(type.getRawClass(), equalTo(ExtendsList.class));
@@ -137,7 +160,10 @@ public class ResolvableTypeTests {
 
 	@Test  // gh-23321
 	public void forRawClassAssignableFromTypeVariable() throws Exception {
-		ResolvableType typeVariable = ResolvableType.forClass(ExtendsList.class).as(List.class).getGeneric();
+		//获得到一个类的Type数组
+		TypeVariable[] typeParameters = List.class.getTypeParameters();
+		ResolvableType typeVariable = ResolvableType.forClass(ExtendsList.class).as(List.class);
+		typeVariable = typeVariable.getGeneric();
 		ResolvableType raw = ResolvableType.forRawClass(CharSequence.class);
 		assertThat(raw.resolve(), equalTo(CharSequence.class));
 		assertThat(typeVariable.resolve(), equalTo(CharSequence.class));
@@ -162,6 +188,7 @@ public class ResolvableTypeTests {
 	}
 
 	@Test
+	/**source 2022/01/16 手动给class F<A,B,C> 中的ABC 设置类型 使用了{@link ResolvableType#forClassWithGenerics(java.lang.Class, java.lang.Class[])} */
 	public void forInstanceProvider() throws Exception {
 		ResolvableType type = ResolvableType.forInstance(new MyGenericInterfaceType<>(String.class));
 		assertThat(type.getRawClass(), equalTo(MyGenericInterfaceType.class));
@@ -175,13 +202,19 @@ public class ResolvableTypeTests {
 		assertThat(type.resolve(), equalTo(MyGenericInterfaceType.class));
 	}
 
+	/**source 2022/01/16 对象域的解析  使用了方法 {@link SerializableTypeWrapper.FieldTypeProvider} 存储了对象域的上下文
+	 * 		{@link ResolvableType#forType(java.lang.reflect.Type, org.springframework.core.SerializableTypeWrapper.TypeProvider, org.springframework.core.ResolvableType.VariableResolver)}
+	 *      如果Type 和TypeProvider  同时提供了将忽略TypeProvider
+	 *
+	 *
+	 * */
 	@Test
 	public void forField() throws Exception {
 		Field field = Fields.class.getField("charSequenceList");
 		ResolvableType type = ResolvableType.forField(field);
 		assertThat(type.getType(), equalTo(field.getGenericType()));
 	}
-
+	/**source 2022/01/16  私有对象域的解析 */
 	@Test
 	public void forPrivateField() throws Exception {
 		Field field = Fields.class.getDeclaredField("privateField");
@@ -220,7 +253,7 @@ public class ResolvableTypeTests {
 		this.thrown.expectMessage("Constructor must not be null");
 		ResolvableType.forConstructorParameter(null, 0);
 	}
-
+	/**source 2022/01/16 从方法的构造函数中获得*/
 	@Test
 	public void forMethodParameterByIndex() throws Exception {
 		Method method = Methods.class.getMethod("charSequenceParameter", List.class);
@@ -258,7 +291,9 @@ public class ResolvableTypeTests {
 	public void forMethodParameterWithNestingAndLevels() throws Exception {
 		Method method = Methods.class.getMethod("nested", Map.class);
 		MethodParameter methodParameter = MethodParameter.forExecutable(method, 0);
+		/**source 2022/01/16 标识这个参数带泛型的层数 */
 		methodParameter.increaseNestingLevel();
+		/**source 2022/01/16 标识我要解析这一层泛型的第0个泛型参数算作是一种存储导航    如果没有设置导航的话 默认就是取这一层的最后一个 */
 		methodParameter.setTypeIndexForCurrentLevel(0);
 		ResolvableType type = ResolvableType.forMethodParameter(methodParameter);
 		assertThat(type.resolve(), equalTo((Class) Map.class));
@@ -364,6 +399,7 @@ public class ResolvableTypeTests {
 				equalTo("java.util.List<java.lang.String>"));
 	}
 
+	/**source 2022/01/16 如果要解析的方式不存在，就会返回 ResolvableType.NONE*/
 	@Test
 	public void getComponentTypeForNonArray() throws Exception {
 		ResolvableType type = ResolvableType.forClass(String.class);
@@ -398,6 +434,7 @@ public class ResolvableTypeTests {
 		assertThat(type.getType().toString(), equalTo("java.util.Collection<E>"));
 	}
 
+	/**source 2022/01/16 因为ExtendsList的父类是ArrayList而Resolvable解析父类是会带泛型的*/
 	@Test
 	public void asFromSuperType() throws Exception {
 		ResolvableType type = ResolvableType.forClass(ExtendsList.class).as(ArrayList.class);
@@ -471,12 +508,13 @@ public class ResolvableTypeTests {
 	@Test
 	public void nestedWithIndexes() throws Exception {
 		ResolvableType type = ResolvableType.forField(Fields.class.getField("nested"));
+		/**source 2022/01/16 指定了我在深度为2的层中要查询第0个位置的泛型参数 */
 		type = type.getNested(2, Collections.singletonMap(2, 0));
 		assertThat(type.resolve(), equalTo((Class) Map.class));
 		assertThat(type.getGeneric(0).resolve(), equalTo((Class) String.class));
 		assertThat(type.getGeneric(1).resolve(), equalTo((Class) Integer.class));
 	}
-
+	/**source 2022/01/16 数组的第2层 其实就相当于集合元素类型 */
 	@Test
 	public void nestedWithArray() throws Exception {
 		ResolvableType type = ResolvableType.forField(Fields.class.getField("genericArrayType"));
@@ -590,6 +628,7 @@ public class ResolvableTypeTests {
 		assertThat(type.getComponentType().getGeneric().resolve(), equalTo((Class) String.class));
 	}
 
+	/**source 2022/01/16 多维数组的getComponent的子元素的获取*/
 	@Test
 	public void resolveGenericMultiArrayType() throws Exception {
 		ResolvableType type = ResolvableType.forField(Fields.class.getField("genericMultiArrayType"));
@@ -600,7 +639,8 @@ public class ResolvableTypeTests {
 	@Test
 	public void resolveGenericArrayFromGeneric() throws Exception {
 		ResolvableType type = ResolvableType.forField(Fields.class.getField("stringArrayList"));
-		ResolvableType generic = type.asCollection().getGeneric();
+		ResolvableType resolvableType = type.asCollection();
+		ResolvableType generic = resolvableType.getGeneric();
 		assertThat(generic.getType().toString(), equalTo("E"));
 		assertThat(generic.isArray(), equalTo(true));
 		assertThat(generic.resolve(), equalTo((Class) String[].class));
@@ -664,7 +704,7 @@ public class ResolvableTypeTests {
 		assertThat(type.getGeneric(1).resolve(), equalTo((Class) List.class));
 		assertThat(type.getGeneric(1, 0).resolve(), equalTo((Class) Integer.class));
 	}
-
+	/**source 2022/01/16 按照父的类型来进行解析*/
 	@Test
 	public void resolveVariableFromInheritedFieldSwitched() throws Exception {
 		ResolvableType type = ResolvableType.forField(
@@ -804,7 +844,7 @@ public class ResolvableTypeTests {
 		assertThat(type.resolve(), equalTo((Class) String.class));
 		assertThat(type.getType().toString(), equalTo("T"));
 	}
-
+	/**source 2022/01/16  可以手动指定typeVariable的类型*/
 	@Test
 	public void resolveTypeVariableFromMethodParameterType() throws Exception {
 		Method method = Methods.class.getMethod("typedParameter", Object.class);
@@ -814,6 +854,7 @@ public class ResolvableTypeTests {
 		assertThat(type.getType().toString(), equalTo("T"));
 	}
 
+	/**source 2022/01/16 使用setContainingClass 来 设置TypeVariable 中声明泛型的类型*/
 	@Test
 	public void resolveTypeVariableFromMethodParameterTypeWithImplementsClass() throws Exception {
 		Method method = Methods.class.getMethod("typedParameter", Object.class);
@@ -831,6 +872,7 @@ public class ResolvableTypeTests {
 		ResolvableType implementationType = ResolvableType.forClassWithGenerics(Methods.class, Integer.class);
 		ResolvableType type = ResolvableType.forMethodParameter(methodParameter, implementationType);
 		assertThat(type.resolve(), equalTo((Class) Integer.class));
+		/**source 2022/01/16 得到参数的Type类型是T 参数类型 */
 		assertThat(type.getType().toString(), equalTo("T"));
 	}
 
@@ -858,6 +900,7 @@ public class ResolvableTypeTests {
 		assertThat(type.getType().toString(), equalTo("T"));
 	}
 
+	/**source 2022/01/16 使用VariableResolver来解析 Type的类型 */
 	@Test
 	public void resolveTypeVariableFromTypeWithVariableResolver() throws Exception {
 		Type sourceType = Methods.class.getMethod("typedReturn").getGenericReturnType();
@@ -928,7 +971,7 @@ public class ResolvableTypeTests {
 		assertThat(ResolvableType.forClass(ListOfGenericArray.class).toString(), equalTo(ListOfGenericArray.class.getName()));
 		assertThat(ResolvableType.forClass(List.class, ListOfGenericArray.class).toString(), equalTo("java.util.List<java.util.List<java.lang.String>[]>"));
 	}
-
+	/**source 2022/01/16 得到ResolvableType解析的来源 */
 	@Test
 	public void getSource() throws Exception {
 		Class<?> classType = MySimpleInterfaceType.class;
@@ -943,7 +986,7 @@ public class ResolvableTypeTests {
 		assertThat(ResolvableType.forClass(classType).getSource(), equalTo((Object) classType));
 		assertThat(ResolvableType.forClass(classType).getSuperType().getSource(), equalTo((Object) classType.getGenericSuperclass()));
 	}
-
+	/**source 2022/01/16 内部类使用外部类的泛型声明 */
 	@Test
 	public void resolveFromOuterClass() throws Exception {
 		Field field = EnclosedInParameterizedType.InnerTyped.class.getField("field");
@@ -951,6 +994,7 @@ public class ResolvableTypeTests {
 		assertThat(type.resolve(), equalTo((Type) Integer.class));
 	}
 
+	/**source 2022/01/16 手动指明声明泛型的类型 */
 	@Test
 	public void resolveFromClassWithGenerics() throws Exception {
 		ResolvableType type = ResolvableType.forClassWithGenerics(List.class, ResolvableType.forClassWithGenerics(List.class, String.class));
@@ -974,7 +1018,7 @@ public class ResolvableTypeTests {
 		assertThat(objectType.isAssignableFrom(ResolvableType.NONE), equalTo(false));
 		assertThat(ResolvableType.NONE.isAssignableFrom(objectType), equalTo(false));
 	}
-
+	/**source 2022/01/17 父类子类的继承关系 */
 	@Test
 	public void isAssignableFromForClassAndClass() throws Exception {
 		ResolvableType objectType = ResolvableType.forClass(Object.class);
@@ -1031,7 +1075,7 @@ public class ResolvableTypeTests {
 		assertAssignable(charSequenceVariable, objectVariable, charSequenceVariable, stringVariable).equalTo(false, true, true);
 		assertAssignable(stringVariable, objectVariable, charSequenceVariable, stringVariable).equalTo(false, false, true);
 	}
-
+	/**source 2022/01/17 是集合时需要比较器组成的类型是否匹配 */
 	@Test
 	public void isAssignableFromForSameClassNonExtendsGenerics() throws Exception {
 		ResolvableType objectList = ResolvableType.forField(AssignmentBase.class.getField("listo"), Assignment.class);
@@ -1041,7 +1085,7 @@ public class ResolvableTypeTests {
 		assertAssignable(objectList, stringList).equalTo(false);
 		assertAssignable(stringList, stringList).equalTo(true);
 	}
-
+	/**source 2022/01/17 带有？边界的比较 */
 	@Test
 	public void isAssignableFromForSameClassExtendsGenerics() throws Exception {
 
@@ -1095,7 +1139,7 @@ public class ResolvableTypeTests {
 		assertAssignable(extendsStringList, charSequenceCollection, charSequenceList, extendsCharSequenceList)
 				.equalTo(false, false, false);
 	}
-
+	/**source 2022/01/17 数组的比价 */
 	@Test
 	public void isAssignableFromForArrays() throws Exception {
 		ResolvableType object = ResolvableType.forField(AssignmentBase.class.getField("o"), Assignment.class);
@@ -1164,7 +1208,7 @@ public class ResolvableTypeTests {
 		assertAssignable(charSequence, superObject, superCharSequence, superString).
 				equalTo(false, false, false);
 	}
-
+	/**source 2022/01/17 复杂的比较  isAssignableFrom  是前面的大于后面的 */
 	@Test
 	public void isAssignableFromForComplexWildcards() throws Exception {
 		ResolvableType complex1 = ResolvableType.forField(AssignmentBase.class.getField("complexWildcard1"));
@@ -1238,7 +1282,7 @@ public class ResolvableTypeTests {
 		assertThat(type.toString(), equalTo("java.util.List<java.lang.String>[]"));
 		assertThat(type.resolve(), equalTo(List[].class));
 	}
-
+	/**source 2022/01/17 ResolvableType也是支持可写性的*/
 	@Test
 	public void serialize() throws Exception {
 		testSerialization(ResolvableType.forClass(List.class));
@@ -1263,7 +1307,7 @@ public class ResolvableTypeTests {
 		ResolvableType narrow = ResolvableType.forType(ArrayList.class, type);
 		assertThat(narrow.getGeneric().resolve(), equalTo(String.class));
 	}
-
+/**source 2022/01/17 是否有不可解析的泛型 ，就是没有指定Type类型的泛型存在 */
 	@Test
 	public void hasUnresolvableGenerics() throws Exception {
 		ResolvableType type = ResolvableType.forField(Fields.class.getField("stringList"));
@@ -1299,17 +1343,20 @@ public class ResolvableTypeTests {
 		}
 		assertThat(type.hasUnresolvableGenerics(), equalTo(true));
 	}
-
+	/**source 2022/01/17 注意这个例子是一个复杂的比较 */
 	@Test
 	public void testSpr11219() throws Exception {
 		ResolvableType type = ResolvableType.forField(BaseProvider.class.getField("stuff"), BaseProvider.class);
 		assertTrue(type.getNested(2).isAssignableFrom(ResolvableType.forClass(BaseImplementation.class)));
-		assertEquals("java.util.Collection<org.springframework.core.ResolvableTypeTests$IBase<?>>", type.toString());
+		assertEquals("java.util.Collection<org.springframework.core._001_ResolvableTypeTests$IBase<?>>", type.toString());
 	}
-
+	/**source 2022/01/17  */
 	@Test
 	public void testSpr12701() throws Exception {
 		ResolvableType resolvableType = ResolvableType.forClassWithGenerics(Callable.class, String.class);
+		TypeVariable<Class<Callable>> classTypeVariable = Callable.class.getTypeParameters()[0];
+		/**source 2022/01/17  在原始中 获取到的时TypeVariable*/
+		System.out.println(TypeVariable.class.isAssignableFrom(classTypeVariable.getClass()));
 		Type type = resolvableType.getType();
 		assertThat(type, is(instanceOf(ParameterizedType.class)));
 		assertThat(((ParameterizedType) type).getRawType(), is(equalTo(Callable.class)));

@@ -241,7 +241,7 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 
 
 	@SuppressWarnings("unused")
-	private static class GetterBean implements AliasedProperty {
+	private static class  GetterBean implements AliasedProperty {
 
 		private String name;
 

@@ -76,7 +76,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourceArrayPropertyEditor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
-
+/**
+ *  PropertyEditorRegistry接口的基本实现。 提供对默认编辑器和自定义编辑器的管理。 主要用作BeanWrapperImpl基类。
+ */
 /**
  * Base implementation of the {@link PropertyEditorRegistry} interface.
  * Provides management of default editors and custom editors.
@@ -108,6 +110,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 	private Map<Class<?>, PropertyEditor> customEditors;
 
 	@Nullable
+	/**存储一个 对象的属性中指定路径中的属性应该使用什么属性编辑器*/
 	private Map<String, CustomEditorHolder> customEditorsForPath;
 
 	@Nullable

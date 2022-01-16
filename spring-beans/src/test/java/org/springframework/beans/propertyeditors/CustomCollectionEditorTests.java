@@ -38,6 +38,9 @@ public class CustomCollectionEditorTests {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
+	/**
+	 *  测试不是Collection类型的Class会产生报错
+	 */
 	@SuppressWarnings("unchecked")
 	public void testCtorWithNonCollectionType() throws Exception {
 		new CustomCollectionEditor((Class) String.class);
@@ -45,11 +48,13 @@ public class CustomCollectionEditorTests {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithCollectionTypeThatDoesNotExposeAPublicNoArgCtor() throws Exception {
+		//CustomCollection无无参构造异常，因为其内部要通过无参构造来创建集合对象
 		CustomCollectionEditor editor = new CustomCollectionEditor(CollectionTypeWithNoNoArgCtor.class);
 		editor.setValue("1");
 	}
 
 	@Test
+	//将数组给转换器，他给你返回一个数组
 	public void testSunnyDaySetValue() throws Exception {
 		CustomCollectionEditor editor = new CustomCollectionEditor(ArrayList.class);
 		editor.setValue(new int[] {0, 1, 2});
@@ -64,6 +69,7 @@ public class CustomCollectionEditorTests {
 	}
 
 	@Test
+	//都好分割的字符串，不会被切割
 	public void testWhenTargetTypeIsExactlyTheCollectionInterfaceUsesFallbackCollectionType() throws Exception {
 		CustomCollectionEditor editor = new CustomCollectionEditor(Collection.class);
 		editor.setValue("0, 1, 2");
