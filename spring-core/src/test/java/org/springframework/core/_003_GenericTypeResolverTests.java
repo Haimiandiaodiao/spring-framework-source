@@ -18,12 +18,10 @@ package org.springframework.core;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Test;
 
@@ -31,21 +29,33 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.core.GenericTypeResolver.*;
 import static org.springframework.util.ReflectionUtils.*;
-
+/**source 2022/01/17 测试带有TypeVariable泛型的类的   泛型解析器   如 List<E>  要将E解析为何种类型
+ * 体用解析类 、方法返回值 、 方法参数 的泛型类型
+ * */
 /**
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class GenericTypeResolverTests {
+public class _003_GenericTypeResolverTests {
 
 	@Test
+	/**source 2022/01/17 解析在MySimpleInterfaceType 类中 MyInterfaceType 具体的泛型参数是什么 */
 	public void simpleInterfaceType() {
 		assertEquals(String.class, resolveTypeArgument(MySimpleInterfaceType.class, MyInterfaceType.class));
 	}
 
 	@Test
 	public void simpleCollectionInterfaceType() {
+		Type genericInterfaces = MyCollectionInterfaceType.class.getGenericInterfaces()[0];
+		Type genericSuperclass = ArrayList.class.getGenericSuperclass();
+
+		System.out.println("MyCollectionInterfaceType第一个接口是否是类型化："+TypeVariable.class.isAssignableFrom(genericInterfaces.getClass()));
+		System.out.println("MyCollectionInterfaceType第一个接口是否是参数化："+ParameterizedType.class.isAssignableFrom(genericInterfaces.getClass()));
+		System.out.println("List第一个接口是否是类型化："+TypeVariable.class.isAssignableFrom(genericSuperclass.getClass()));
+		System.out.println("List第一个接口是否是参数化："+ParameterizedType.class.isAssignableFrom(genericSuperclass.getClass()));
+		System.out.println(genericInterfaces);
+		System.out.println(genericSuperclass);
 		assertEquals(Collection.class, resolveTypeArgument(MyCollectionInterfaceType.class, MyInterfaceType.class));
 	}
 
@@ -61,11 +71,13 @@ public class GenericTypeResolverTests {
 
 	@Test
 	public void nullIfNotResolvable() {
+		/**source 2022/01/17 运行时设定的泛型参数是解析不到的*/
 		GenericClass<String> obj = new GenericClass<>();
 		assertNull(resolveTypeArgument(obj.getClass(), GenericClass.class));
 	}
 
 	@Test
+	/**source 2022/01/17 解析不到类型就会返回空*/
 	public void methodReturnTypes() {
 		assertEquals(Integer.class,
 				resolveReturnTypeArgument(findMethod(MyTypeWithMethods.class, "integer"), MyInterfaceType.class));
@@ -96,11 +108,12 @@ public class GenericTypeResolverTests {
 		assertEquals(Integer[].class, resolveType(genericArrMessageMethodParam.getGenericParameterType(), varMap));
 	}
 
+	/**source 2022/01/17 可以解析< ? extend B> B作为上界参数 */
 	@Test
 	public void testBoundParameterizedType() {
 		assertEquals(B.class, resolveTypeArgument(TestImpl.class, TestIfc.class));
 	}
-
+	/**source 2022/01/17 将TypeVariable参数映射为Map进行存储 */
 	@Test
 	public void testGetTypeVariableMap() throws Exception {
 		Map<TypeVariable, Type> map;

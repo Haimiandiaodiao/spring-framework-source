@@ -28,7 +28,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
-
+/**source 2022/01/17 用于针对类型变量解析泛型类型的辅助类。*/
 /**
  * Helper class for resolving generic types against type variables.
  *
@@ -97,7 +97,7 @@ public final class GenericTypeResolver {
 		}
 		return getSingleGeneric(resolvableType);
 	}
-
+	/**source 2022/01/17 针对假定实现泛型接口并可能为其类型变量声明具体类型的给定目标类解析给定泛型接口的单个​​类型参数 */
 	/**
 	 * Resolve the single type argument of the given generic interface against
 	 * the given target class which is assumed to implement the generic interface

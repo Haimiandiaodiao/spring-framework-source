@@ -34,7 +34,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
-
+/**source 2022/01/17 类型解析名字，相比ResolvableType是更上层的Api 具体class 类型，是否是包装类等信息。 能够表示数组和泛型集合类型。 */
 /**
  * Contextual descriptor about a type to convert from or to.
  * Capable of representing arrays and generic collection types.

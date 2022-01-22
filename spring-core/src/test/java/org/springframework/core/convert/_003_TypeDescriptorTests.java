@@ -16,6 +16,10 @@
 
 package org.springframework.core.convert;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -45,7 +49,7 @@ import org.springframework.util.MultiValueMap;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-
+/**source 2022/01/17   ResolvableType的上层api 使用者 TypeDescriptor */
 /**
  * Tests for {@link TypeDescriptor}.
  *
@@ -56,7 +60,7 @@ import static org.junit.Assert.*;
  * @author Nathan Piper
  */
 @SuppressWarnings("rawtypes")
-public class TypeDescriptorTests {
+public class _003_TypeDescriptorTests {
 	@Test
 	public void baseUse() throws Exception {
 		ResolvableType testParameterPrimitive = ResolvableType.forMethodParameter(new MethodParameter(getClass().getMethod("testParameterPrimitive", int.class), 0));
@@ -274,7 +278,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldList() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("listOfString"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("listOfString"));
 		assertFalse(typeDescriptor.isArray());
 		assertEquals(List.class, typeDescriptor.getType());
 		assertEquals(String.class, typeDescriptor.getElementTypeDescriptor().getType());
@@ -283,7 +287,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldListOfListOfString() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("listOfListOfString"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("listOfListOfString"));
 		assertFalse(typeDescriptor.isArray());
 		assertEquals(List.class, typeDescriptor.getType());
 		assertEquals(List.class, typeDescriptor.getElementTypeDescriptor().getType());
@@ -293,7 +297,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldListOfListUnknown() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("listOfListOfUnknown"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("listOfListOfUnknown"));
 		assertFalse(typeDescriptor.isArray());
 		assertEquals(List.class, typeDescriptor.getType());
 		assertEquals(List.class, typeDescriptor.getElementTypeDescriptor().getType());
@@ -303,7 +307,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldArray() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("intArray"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("intArray"));
 		assertTrue(typeDescriptor.isArray());
 		assertEquals(Integer.TYPE,typeDescriptor.getElementTypeDescriptor().getType());
 		assertEquals("int[]",typeDescriptor.toString());
@@ -311,7 +315,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldComplexTypeDescriptor() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("arrayOfListOfString"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("arrayOfListOfString"));
 		assertTrue(typeDescriptor.isArray());
 		assertEquals(List.class,typeDescriptor.getElementTypeDescriptor().getType());
 		assertEquals(String.class, typeDescriptor.getElementTypeDescriptor().getElementTypeDescriptor().getType());
@@ -320,7 +324,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldComplexTypeDescriptor2() throws Exception {
-		TypeDescriptor typeDescriptor = new TypeDescriptor(TypeDescriptorTests.class.getDeclaredField("nestedMapField"));
+		TypeDescriptor typeDescriptor = new TypeDescriptor(_003_TypeDescriptorTests.class.getDeclaredField("nestedMapField"));
 		assertTrue(typeDescriptor.isMap());
 		assertEquals(String.class,typeDescriptor.getMapKeyTypeDescriptor().getType());
 		assertEquals(List.class, typeDescriptor.getMapValueTypeDescriptor().getType());
@@ -330,7 +334,7 @@ public class TypeDescriptorTests {
 
 	@Test
 	public void fieldMap() throws Exception {
-		TypeDescriptor desc = new TypeDescriptor(TypeDescriptorTests.class.getField("fieldMap"));
+		TypeDescriptor desc = new TypeDescriptor(_003_TypeDescriptorTests.class.getField("fieldMap"));
 		assertTrue(desc.isMap());
 		assertEquals(Integer.class, desc.getMapKeyTypeDescriptor().getElementTypeDescriptor().getType());
 		assertEquals(Long.class, desc.getMapValueTypeDescriptor().getElementTypeDescriptor().getType());
@@ -1028,4 +1032,17 @@ public class TypeDescriptorTests {
 	public @interface ComposedComposedMethodAnnotation1 {
 	}
 
+	@Test
+	public void name() throws IntrospectionException {
+		BeanInfo beanInfo = Introspector.getBeanInfo(A.class);
+		MethodDescriptor[] methodDescriptors = beanInfo.getMethodDescriptors();
+		for (MethodDescriptor methodDescriptor : methodDescriptors) {
+			System.out.println(methodDescriptor);
+		}
+	}
+
+	public static class A {
+		 public void publiMehotd(){};
+		 private void privateMethod(){};
+	}
 }

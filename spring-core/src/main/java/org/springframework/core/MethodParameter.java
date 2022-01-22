@@ -40,7 +40,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
-
+/**source 2022/01/17  封装方法参数规范的助手类，即Method或Constructor加上参数索引和声明的泛型类型的嵌套类型索引*/
 /**
  * Helper class that encapsulates the specification of a method parameter, i.e. a {@link Method}
  * or {@link Constructor} plus a parameter index and a nested type index for a declared generic
@@ -377,7 +377,7 @@ public class MethodParameter {
 		return (getParameterType() == Optional.class ? nested() : this);
 	}
 
-	/**
+	/**设置一个包含类来解析参数类型
 	 * Set a containing class to resolve the parameter type against.
 	 */
 	void setContainingClass(Class<?> containingClass) {

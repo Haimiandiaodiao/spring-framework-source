@@ -30,6 +30,10 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
+/**
+ *  JavaBeans 属性的描述，它允许我们避免对java.beans.PropertyDescriptor的依赖。
+ *  java.beans包在许多环境（例如Android、Java ME）中不可用，因此这对于Spring 核心转换工具的可移植性是可取的
+ */
 
 /**
  * A description of a JavaBeans Property that allows us to avoid a dependency on

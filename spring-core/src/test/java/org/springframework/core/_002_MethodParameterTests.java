@@ -30,12 +30,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**source 2022/01/17 对方法参数的描述 和泛型解析 */
 /**
  * @author Arjen Poutsma
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
-public class MethodParameterTests {
+public class _002_MethodParameterTests {
 
 	private Method method;
 
@@ -87,7 +88,7 @@ public class MethodParameterTests {
 		assertEquals(stringParameter.hashCode(), methodParameter.hashCode());
 		assertNotEquals(longParameter.hashCode(), methodParameter.hashCode());
 	}
-
+	/**source 2022/01/17 测试MethodParameter构造使用的工厂方法 */
 	@Test
 	@SuppressWarnings("deprecation")
 	public void testFactoryMethods() {
@@ -113,7 +114,7 @@ public class MethodParameterTests {
 		assertEquals(String.class, methodParameter.getParameterType());
 		assertNotNull("Failed to find @Param annotation", methodParameter.getParameterAnnotation(Param.class));
 	}
-
+	/**source 2022/01/17  内嵌类 构造函数其实有一个隐藏的参数外部类的Class */
 	@Test  // SPR-16652
 	public void annotatedConstructorParameterInInnerClass() throws Exception {
 		Constructor<?> constructor = InnerClass.class.getConstructor(getClass(), String.class, Callable.class);
@@ -148,7 +149,7 @@ public class MethodParameterTests {
 		assertEquals(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType(),
 				methodParameter.getGenericParameterType());
 	}
-
+	/**source 2022/01/17 手动设置TypeVariable泛型方法参数的类型*/
 	@Test
 	public void multipleResolveParameterTypeCalls() throws Exception {
 		Method method = ArrayList.class.getMethod("get", int.class);
