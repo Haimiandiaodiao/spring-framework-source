@@ -33,14 +33,14 @@ import org.junit.Test;
 import org.springframework.util.ReflectionUtils;
 
 import static org.junit.Assert.*;
-
+/**source 2022/01/23 对桥接方法的解析   具体的方法提供者就是真实的方法，而不是桥接方法*/
 /**
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Chris Beams
  */
 @SuppressWarnings("rawtypes")
-public class BridgeMethodResolverTests {
+public class _008_BridgeMethodResolverTests {
 
 	private static Method findMethodWithReturnType(String name, Class<?> returnType, Class<SettingsDaoImpl> targetType) {
 		Method[] methods = targetType.getMethods();
@@ -52,6 +52,11 @@ public class BridgeMethodResolverTests {
 		return null;
 	}
 
+	@Test
+	public void name() {
+		Method[] declaredMethods = MyFoo.class.getDeclaredMethods();
+		System.out.println(declaredMethods);
+	}
 
 	@Test
 	public void testFindBridgedMethod() throws Exception {
@@ -85,7 +90,7 @@ public class BridgeMethodResolverTests {
 		assertEquals(1, bridgedMethod.getParameterCount());
 		assertEquals(Date.class, bridgedMethod.getParameterTypes()[0]);
 	}
-
+	/**source 2022/01/24 一个方法是不是另外又给方法的桥接方法*/
 	@Test
 	public void testIsBridgeMethodFor() throws Exception {
 		Method bridged = MyBar.class.getDeclaredMethod("someMethod", String.class, Object.class);
@@ -122,11 +127,14 @@ public class BridgeMethodResolverTests {
 		assertEquals(method, BridgeMethodResolver.findBridgedMethod(loadWithSettingsReturn));
 	}
 
+	/**source 2022/01/24 谁提供真正执行的代码方法，谁就是被桥接的方法 */
 	@Test
 	public void testFindBridgedMethodFromParent() throws Exception {
+		AbstractDaoImpl settingsDao = new SettingsDaoImpl(null);
+		Object o = settingsDao.loadFromParent();
 		Method loadFromParentBridge = SettingsDaoImpl.class.getMethod("loadFromParent");
 		assertTrue(loadFromParentBridge.isBridge());
-
+		/**source 2022/01/24 是真实的方法提供者 ， 其不是桥接方法 */
 		Method loadFromParent = AbstractDaoImpl.class.getMethod("loadFromParent");
 		assertFalse(loadFromParent.isBridge());
 
@@ -135,8 +143,10 @@ public class BridgeMethodResolverTests {
 
 	@Test
 	public void testWithSingleBoundParameterizedOnInstantiate() throws Exception {
+		/**source 2022/01/24 不是方法的提供者 所以是桥接方法 */
 		Method bridgeMethod = DelayQueue.class.getMethod("add", Object.class);
 		assertTrue(bridgeMethod.isBridge());
+		/**source 2022/01/24真实的提供者 ，覆盖了上面的方法 ， 所以不是桥接方法 */
 		Method actualMethod = DelayQueue.class.getMethod("add", Delayed.class);
 		assertFalse(actualMethod.isBridge());
 		assertEquals(actualMethod, BridgeMethodResolver.findBridgedMethod(bridgeMethod));
@@ -144,8 +154,10 @@ public class BridgeMethodResolverTests {
 
 	@Test
 	public void testWithDoubleBoundParameterizedOnInstantiate() throws Exception {
+		/**source 2022/01/24 非方法的具体提供者*/
 		Method bridgeMethod = SerializableBounded.class.getMethod("boundedOperation", Object.class);
 		assertTrue(bridgeMethod.isBridge());
+		/**source 2022/01/24 方法具体提供者 */
 		Method actualMethod = SerializableBounded.class.getMethod("boundedOperation", HashMap.class);
 		assertFalse(actualMethod.isBridge());
 		assertEquals(actualMethod, BridgeMethodResolver.findBridgedMethod(bridgeMethod));

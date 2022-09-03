@@ -24,7 +24,7 @@ import java.util.Iterator;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-
+/**source 2022/01/22 提供方法来支持整个框架中使用的各种命名和其他约定。 主要供框架内部使用 */
 /**
  * Provides methods to support various naming and other conventions used
  * throughout the framework. Mainly for internal use within the framework.

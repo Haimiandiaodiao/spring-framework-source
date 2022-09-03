@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  * @author Adrian Colyer
  */
 public class LocalVariableTableParameterNameDiscovererTests {
-
+	/**source 2022/01/24 查看本地方法变量表 */
 	private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
 

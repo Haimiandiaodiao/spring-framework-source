@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.core._008_BridgeMethodResolverTests;
 
 import static org.junit.Assert.*;
 import static org.springframework.core.annotation.AnnotatedElementUtils.*;
@@ -183,7 +184,7 @@ public class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 
 	/**
 	 * Bridge/bridged method setup code copied from
-	 * {@link org.springframework.core.BridgeMethodResolverTests#testWithGenericParameter()}.
+	 * {@link _008_BridgeMethodResolverTests#testWithGenericParameter()}.
 	 */
 	public Method getBridgeMethod() throws NoSuchMethodException {
 		Method[] methods = StringGenericParameter.class.getMethods();

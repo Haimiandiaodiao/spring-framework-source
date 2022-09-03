@@ -22,14 +22,14 @@ import java.util.Set;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/**source 2022/01/22 用来解析类常量属性的类ConstantsTest */
 /**
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rick Evans
  * @since 28.04.2003
  */
-public class ConstantsTests {
+public class _006_ConstantsTests {
 
 	@Test
 	public void constants() {
@@ -39,7 +39,9 @@ public class ConstantsTests {
 
 		assertEquals(A.DOG, c.asNumber("DOG").intValue());
 		assertEquals(A.DOG, c.asNumber("dog").intValue());
-		assertEquals(A.CAT, c.asNumber("cat").intValue());
+		assertEquals(A.CAT, c.asNumber("" +
+				"" +
+				"").intValue());
 
 		try {
 			c.asNumber("bogus");
@@ -48,7 +50,11 @@ public class ConstantsTests {
 		catch (Constants.ConstantException expected) {
 		}
 
+
 		assertTrue(c.asString("S1").equals(A.S1));
+
+
+
 		try {
 			c.asNumber("S1");
 			fail("Wrong type");

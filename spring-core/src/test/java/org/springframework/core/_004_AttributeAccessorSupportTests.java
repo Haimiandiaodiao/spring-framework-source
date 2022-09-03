@@ -21,13 +21,13 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/**source 2022/01/22 AttributeAccessor 的测试内部一些默认实现是Map */
 /**
  * @author Rob Harrop
  * @author Sam Brannen
  * @since 2.0
  */
-public class AttributeAccessorSupportTests {
+public class _004_AttributeAccessorSupportTests {
 
 	private static final String NAME = "foo";
 

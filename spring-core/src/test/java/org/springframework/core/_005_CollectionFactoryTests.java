@@ -43,6 +43,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.core.CollectionFactory.*;
 
+/**source 2022/01/22  集合创建工具可以创建类似List ， set ， Map 集合*/
 /**
  * Unit tests for {@link CollectionFactory}.
  *
@@ -50,7 +51,7 @@ import static org.springframework.core.CollectionFactory.*;
  * @author Sam Brannen
  * @since 4.1.4
  */
-public class CollectionFactoryTests {
+public class _005_CollectionFactoryTests {
 
 	/**
 	 * The test demonstrates that the generics-based API for

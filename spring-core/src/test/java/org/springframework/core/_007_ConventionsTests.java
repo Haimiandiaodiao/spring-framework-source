@@ -36,13 +36,14 @@ import org.springframework.util.ClassUtils;
 
 import static org.junit.Assert.*;
 
+/**source 2022/01/22  约定名称的解析*/
 /**
  * Unit tests for {@link Conventions}.
  *
  * @author Rob Harrop
  * @author Sam Brannen
  */
-public class ConventionsTests {
+public class _007_ConventionsTests {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();

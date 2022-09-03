@@ -3357,7 +3357,7 @@ public class ClassReader {
     byte[] classFileBuffer = b;
     return ((classFileBuffer[offset] & 0xFF) << 8) | (classFileBuffer[offset + 1] & 0xFF);
   }
-
+	/**source 2022/01/24 readShort是读取2个字节的方法  并且Class文件采用了 Big-Endian的存储方式，具体是指高位字节在地址最低为, 最低位字节在位置的最高位，所以会如下代码 会进行一下交换的操作 */
   /**
    * Reads a signed short value in {@link #b}. <i>This method is intended for {@link Attribute} sub
    * classes, and is normally not needed by class generators or adapters.</i>

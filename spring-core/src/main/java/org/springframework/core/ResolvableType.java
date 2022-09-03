@@ -42,7 +42,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- *  封装 Java Type ，提供对supertypes 、 interfaces和generic parameters以及最终resolve为Class的能力。
+ *  封装 Java Type ，
+ *  提供对supertypes 、 interfaces和generic parameters以及最终resolve为Class的能力。
  */
 /**
  * Encapsulates a Java {@link java.lang.reflect.Type}, providing access to
@@ -1328,12 +1329,16 @@ public class ResolvableType implements Serializable {
 	 */
 	public static ResolvableType forMethodParameter(MethodParameter methodParameter, @Nullable Type targetType) {
 		Assert.notNull(methodParameter, "MethodParameter must not be null");
+		//因为会有 class <T> A{ public void T method(T a)} 这样的泛型所以我们要解析类上的具体参数 才能知道方法的参数
+		//owner 是解析的类上的泛型参数
+		//下面是包装的方法参数的类型    和要将其和类上的泛型进行映射
 		ResolvableType owner = forType(methodParameter.getContainingClass()).as(methodParameter.getDeclaringClass());
 		return forType(targetType, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver()).
 				getNested(methodParameter.getNestingLevel(), methodParameter.typeIndexesPerLevel);
 	}
 
-	/**
+	/**0
+	 *
 	 * Resolve the top-level parameter type of the given {@code MethodParameter}.
 	 * @param methodParameter the method parameter to resolve
 	 * @since 4.1.9

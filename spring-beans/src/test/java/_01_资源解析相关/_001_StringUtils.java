@@ -9,9 +9,15 @@ public class _001_StringUtils {
 	 *  2.可以完成../和./的转换
 	 */
 	@Test
-	public void 基础使用测试() {
-		String pathToUse = StringUtils.cleanPath("C:\\Windows\\..\\.\\System32\\drivers\\etc");
-		System.out.println(pathToUse);
+	public void 基础使用测试() throws Exception {
+		try {
+			String pathToUse = StringUtils.cleanPath("C:\\Windows\\..\\.\\System32\\drivers\\etc");
+			System.out.println(pathToUse);
+		}catch (Exception e){
+			System.out.println(e);
+		}finally {
+			System.out.println(11111);
+		}
 
 	}
 }

@@ -52,6 +52,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import org.springframework.core.ResolvableType.VariableResolver;
 import org.springframework.util.MultiValueMap;
+import rx.observables.SyncOnSubscribe;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -280,6 +281,7 @@ public class _001_ResolvableTypeTests {
 	public void forMethodParameterWithNesting() throws Exception {
 		Method method = Methods.class.getMethod("nested", Map.class);
 		MethodParameter methodParameter = MethodParameter.forExecutable(method, 0);
+		//这个参数的第二个泛型参数
 		methodParameter.increaseNestingLevel();
 		ResolvableType type = ResolvableType.forMethodParameter(methodParameter);
 		assertThat(type.resolve(), equalTo((Class) Map.class));
@@ -393,6 +395,7 @@ public class _001_ResolvableTypeTests {
 	@Test
 	public void getComponentTypeForVariableThatResolvesToGenericArray() throws Exception {
 		ResolvableType type = ResolvableType.forClass(ListOfGenericArray.class).asCollection().getGeneric();
+		System.out.println(type.getType());
 		assertThat(type.isArray(), equalTo(true));
 		assertThat(type.getType(), instanceOf(TypeVariable.class));
 		assertThat(type.getComponentType().getType().toString(),
@@ -777,7 +780,10 @@ public class _001_ResolvableTypeTests {
 		assertThat(type.resolve(), equalTo((Class) List.class));
 		assertThat(type.getGeneric().resolve(), equalTo((Class) String.class));
 	}
-
+	/**source 2022/08/28  forClassWithGenerics
+	 * 手动给时实现类赋值 然后对内部进行解析
+	 * 用到了 ParameterizedType syntheticType = new SyntheticParameterizedType(clazz, arguments);  构建类 class 的参数泛型类型是arguments
+	 * */
 	@Test
 	public void resolveTypeVariableFromFieldTypeWithImplementsType() throws Exception {
 		ResolvableType implementationType = ResolvableType.forClassWithGenerics(
@@ -786,6 +792,25 @@ public class _001_ResolvableTypeTests {
 				Fields.class.getField("parameterizedType"), implementationType);
 		assertThat(type.resolve(), equalTo((Class) List.class));
 		assertThat(type.getGeneric().resolve(), equalTo((Class) Integer.class));
+	}
+
+	class A<T>{
+
+	}
+	class B extends A<String>{
+	}
+	/**source 2022/08/28
+	 * A处相当于是声明处 不知道具体的值所以是参数化的参数
+	 * B出因为继承了， 所有可以确定其泛型的类型，所有可以确定其类型所以是参数类型
+	 *
+	 *
+	 * */
+	@Test
+	public void TypeVariable和ParameterizedType的区别() {
+		TypeVariable<Class<A>> classTypeVariable = A.class.getTypeParameters()[0];
+		System.out.println(classTypeVariable.getClass().getName());//TypeVariableImpl
+		Type genericSuperclass = B.class.getGenericSuperclass();
+		System.out.println(genericSuperclass.getClass().getName());//ParameterizedTypeImpl
 	}
 
 	@Test
@@ -866,6 +891,11 @@ public class _001_ResolvableTypeTests {
 	}
 
 	@Test
+	/**source 2022/08/28
+	 * 手动指定TypeVariables的类的类型，
+	 * 并用来进行解析
+	 *
+	 * */
 	public void resolveTypeVariableFromMethodParameterTypeWithImplementsType() throws Exception {
 		Method method = Methods.class.getMethod("typedParameter", Object.class);
 		MethodParameter methodParameter = MethodParameter.forExecutable(method, 0);
@@ -1282,7 +1312,7 @@ public class _001_ResolvableTypeTests {
 		assertThat(type.toString(), equalTo("java.util.List<java.lang.String>[]"));
 		assertThat(type.resolve(), equalTo(List[].class));
 	}
-	/**source 2022/01/17 ResolvableType也是支持可写性的*/
+	/**source 2022/01/17 ResolvableType也是支持学序列化*/
 	@Test
 	public void serialize() throws Exception {
 		testSerialization(ResolvableType.forClass(List.class));

@@ -41,6 +41,7 @@ import org.junit.Test;
 import org.junit.internal.ArrayComparisonFailure;
 import org.junit.rules.ExpectedException;
 
+import org.springframework.core._008_BridgeMethodResolverTests;
 import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Indexed;
@@ -586,7 +587,7 @@ public class AnnotatedElementUtilsTests {
 
 	/**
 	 * Bridge/bridged method setup code copied from
-	 * {@link org.springframework.core.BridgeMethodResolverTests#testWithGenericParameter()}.
+	 * {@link _008_BridgeMethodResolverTests#testWithGenericParameter()}.
 	 * @since 4.2
 	 */
 	@Test
