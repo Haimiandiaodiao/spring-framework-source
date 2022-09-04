@@ -21,13 +21,13 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/04   对异常解析到指定异常的深度分析
  * @author Juergen Hoeller
  * @author Chris Shepperd
  */
 @SuppressWarnings("unchecked")
-public class ExceptionDepthComparatorTests {
+public class _011_ExceptionDepthComparatorTests {
 
 	@Test
 	public void targetBeforeSameDepth() throws Exception {
@@ -85,6 +85,9 @@ public class ExceptionDepthComparatorTests {
 
 	private Class<? extends Throwable> findClosestMatch(
 			Class<? extends Throwable>... classes) {
+
+
+
 		return ExceptionDepthComparator.findClosestMatch(Arrays.asList(classes), new TargetException());
 	}
 

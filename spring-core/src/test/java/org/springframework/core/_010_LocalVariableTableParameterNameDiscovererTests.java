@@ -28,11 +28,11 @@ import org.junit.Test;
 import org.springframework.tests.sample.objects.TestObject;
 
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/04   通过字节码中的本地方法表，来进行对方法参数的解析
  * @author Adrian Colyer
  */
-public class LocalVariableTableParameterNameDiscovererTests {
+public class _010_LocalVariableTableParameterNameDiscovererTests {
 	/**source 2022/01/24 查看本地方法变量表 */
 	private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
@@ -82,7 +82,7 @@ public class LocalVariableTableParameterNameDiscovererTests {
 
 	@Test
 	public void overloadedStaticMethod() throws Exception {
-		Class<? extends LocalVariableTableParameterNameDiscovererTests> clazz = this.getClass();
+		Class<? extends _010_LocalVariableTableParameterNameDiscovererTests> clazz = this.getClass();
 
 		Method m1 = clazz.getMethod("staticMethod", Long.TYPE, Long.TYPE);
 		String[] names = discoverer.getParameterNames(m1);
@@ -120,7 +120,7 @@ public class LocalVariableTableParameterNameDiscovererTests {
 
 	@Test
 	public void overloadedMethod() throws Exception {
-		Class<? extends LocalVariableTableParameterNameDiscovererTests> clazz = this.getClass();
+		Class<? extends _010_LocalVariableTableParameterNameDiscovererTests> clazz = this.getClass();
 
 		Method m1 = clazz.getMethod("instanceMethod", Double.TYPE, Double.TYPE);
 		String[] names = discoverer.getParameterNames(m1);

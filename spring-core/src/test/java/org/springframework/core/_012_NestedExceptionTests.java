@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  * @author Juergen Hoeller
  */
 @SuppressWarnings("serial")
-public class NestedExceptionTests {
+public class _012_NestedExceptionTests {
 
 	@Test
 	public void nestedRuntimeExceptionWithNoRootCause() {

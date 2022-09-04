@@ -19,11 +19,12 @@ package org.springframework.core;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/05   对别名的注册  是别名到-> 正常名字的映射
  * @author Juergen Hoeller
+ *
  */
-public class SimpleAliasRegistryTests {
+public class _017_SimpleAliasRegistryTests {
 
 	@Test
 	public void testAliasChaining() {

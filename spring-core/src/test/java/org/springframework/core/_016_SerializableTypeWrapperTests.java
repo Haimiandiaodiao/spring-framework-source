@@ -33,13 +33,13 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/05   对Type的进行可序列化的的包装
  * Tests for {@link SerializableTypeWrapper}.
  *
  * @author Phillip Webb
  */
-public class SerializableTypeWrapperTests {
+public class _016_SerializableTypeWrapperTests {
 
 	@Test
 	public void forField() throws Exception {

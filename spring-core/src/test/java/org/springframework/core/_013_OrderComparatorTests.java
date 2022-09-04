@@ -21,15 +21,15 @@ import java.util.Comparator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/05  对ordered接口功能的测试 排序的支持
  * Unit tests for the {@link OrderComparator} class.
  *
  * @author Rick Evans
  * @author Stephane Nicoll
  * @author Juergen Hoeller
  */
-public class OrderComparatorTests {
+public class _013_OrderComparatorTests {
 
 	private final OrderComparator comparator = new OrderComparator();
 

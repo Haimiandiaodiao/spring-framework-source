@@ -26,11 +26,12 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
 /**
+ * **source 2022/09/05   它使用 JDK 8 的反射工具来内省参数名称（基于“-parameters”编译器标志）。
  * Tests for StandardReflectionParameterNameDiscoverer
  *
  * @author Rob Winch
  */
-public class StandardReflectionParameterNameDiscoverTests {
+public class _018_StandardReflectionParameterNameDiscoverTests {
 	private ParameterNameDiscoverer parameterNameDiscoverer;
 
 	@Before

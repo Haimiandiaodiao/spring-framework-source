@@ -23,14 +23,14 @@ import java.util.Map;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/**source 2022/09/05 将泛型信息保存到类中*/
 /**
  * Test fixture for {@link ParameterizedTypeReference}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
  */
-public class ParameterizedTypeReferenceTests {
+public class _014_ParameterizedTypeReferenceTests {
 
 	@Test
 	public void stringTypeReference() {

@@ -24,8 +24,11 @@ import org.junit.Test;
 import org.springframework.tests.sample.objects.TestObject;
 
 import static org.junit.Assert.*;
-
-public class PrioritizedParameterNameDiscovererTests {
+/**source 2022/09/05
+ * 优先的参数名发现器，用来解析方法参数的
+ *
+ * */
+public class _015_PrioritizedParameterNameDiscovererTests {
 
 	private static final String[] FOO_BAR = new String[] { "foo", "bar" };
 
@@ -55,7 +58,7 @@ public class PrioritizedParameterNameDiscovererTests {
 
 	private final Method anyMethod;
 
-	public PrioritizedParameterNameDiscovererTests() throws SecurityException, NoSuchMethodException {
+	public _015_PrioritizedParameterNameDiscovererTests() throws SecurityException, NoSuchMethodException {
 		anyMethod = TestObject.class.getMethod("getAge");
 	}
 

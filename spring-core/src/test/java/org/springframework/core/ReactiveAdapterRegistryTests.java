@@ -33,7 +33,14 @@ import rx.Observable;
 import rx.Single;
 
 import static org.junit.Assert.*;
-
+/**source 2022/09/05
+ *
+ * Reactive spring中的新的响应处理引擎
+ * 什么是响应式编程：
+ *  a:=b+c 表示将表达式的结果赋给a ，而之后改变b 或c 的值不会影响 。但在响应式编程中，a的值会随着b或c 的更新而更新。
+ *  电子表格程序就是响应式编程的一个例子。单元格可以包含字面值或类似"=B1+C1"的公式，而包含公式的单元格的值会依据其他单元格的值的变化而变化
+ *
+ * */
 /**
  * Unit tests for {@link ReactiveAdapterRegistry}.
  * @author Rossen Stoyanchev

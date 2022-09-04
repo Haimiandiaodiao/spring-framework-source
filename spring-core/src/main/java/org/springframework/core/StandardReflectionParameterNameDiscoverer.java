@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 import org.springframework.lang.Nullable;
-
 /**
+ * **source 2022/09/05   它使用 JDK 8 的反射工具来内省参数名称（基于“-parameters”编译器标志）。
  * {@link ParameterNameDiscoverer} implementation which uses JDK 8's reflection facilities
  * for introspecting parameter names (based on the "-parameters" compiler flag).
  *

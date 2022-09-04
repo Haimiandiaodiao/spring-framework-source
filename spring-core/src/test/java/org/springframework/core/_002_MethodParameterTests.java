@@ -30,7 +30,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**source 2022/01/17 对方法参数的描述 和泛型解析 */
+/**source 2022/01/17 将一个泛型声明解析到一个具体的类型上 */
 /**
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -149,7 +149,7 @@ public class _002_MethodParameterTests {
 		assertEquals(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType(),
 				methodParameter.getGenericParameterType());
 	}
-	/**source 2022/01/17 手动设置TypeVariable泛型方法参数的类型*/
+	/**source 2022/01/17 手动设置TypeVariable泛型方法参数的类型 也就是将泛型进行解析到具体类型上*/
 	@Test
 	public void multipleResolveParameterTypeCalls() throws Exception {
 		Method method = ArrayList.class.getMethod("get", int.class);

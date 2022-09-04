@@ -17,8 +17,9 @@
 package org.springframework.core;
 
 import org.springframework.lang.Nullable;
-
 /**
+ * **source 2022/09/05   用于包装原始异常的抽象类
+ *
  * Handy class for wrapping runtime {@code Exceptions} with a root cause.
  *
  * <p>This class is {@code abstract} to force the programmer to extend
