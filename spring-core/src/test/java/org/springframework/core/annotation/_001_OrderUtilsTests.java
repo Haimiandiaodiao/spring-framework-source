@@ -21,12 +21,12 @@ import javax.annotation.Priority;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/05  对@Order(50)  @Priority(55)参数的解析
  * @author Stephane Nicoll
  * @author Juergen Hoeller
  */
-public class OrderUtilsTests {
+public class _001_OrderUtilsTests {
 
 	@Test
 	public void getSimpleOrder() {

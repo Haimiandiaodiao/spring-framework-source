@@ -29,8 +29,9 @@ import org.springframework.core.annotation.AnnotationUtilsTests.ImplicitAliasesC
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-
 /**
+ * **source 2022/09/05   注解属性保存
+ *
  * Unit tests for {@link AnnotationAttributes}.
  *
  * @author Chris Beams
@@ -38,7 +39,7 @@ import static org.junit.Assert.*;
  * @author Juergen Hoeller
  * @since 3.1.1
  */
-public class AnnotationAttributesTests {
+public class _002_AnnotationAttributesTests {
 
 	private AnnotationAttributes attributes = new AnnotationAttributes();
 
