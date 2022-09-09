@@ -49,6 +49,10 @@ import static org.springframework.core.annotation.AnnotationUtils.*;
 /**
  * Unit tests for {@link AnnotationUtils}.
  *
+ * getAnnotation    桥接方法拿不到注解
+ * findAnnotation	桥接方法可以拿到注解
+ *
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -56,7 +60,7 @@ import static org.springframework.core.annotation.AnnotationUtils.*;
  * @author Phillip Webb
  * @author Oleg Zhurakousky
  */
-public class AnnotationUtilsTests {
+public class _004_AnnotationUtilsTests {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -102,7 +106,7 @@ public class AnnotationUtilsTests {
 	public void findMethodAnnotationWithMetaMetaAnnotationOnLeaf() throws Exception {
 		Method m = Leaf.class.getMethod("metaMetaAnnotatedOnLeaf");
 		assertNull(m.getAnnotation(Component.class));
-		assertNull(getAnnotation(m, Component.class));
+		assertNull(getAnnotation(m, Component.class));//没有继承的注解， 也不会向上遍历进行查找的
 		assertNotNull(findAnnotation(m, Component.class));
 	}
 
@@ -119,7 +123,7 @@ public class AnnotationUtilsTests {
 	public void findMethodAnnotationWithMetaAnnotationOnRoot() throws Exception {
 		Method m = Leaf.class.getMethod("metaAnnotatedOnRoot");
 		assertNull(m.getAnnotation(Order.class));
-		assertNotNull(getAnnotation(m, Order.class));
+		assertNotNull(getAnnotation(m, Order.class)); //因为@Meta1 有继承注解， 所以 可以被查找
 		assertNotNull(findAnnotation(m, Order.class));
 	}
 

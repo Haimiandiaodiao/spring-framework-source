@@ -53,33 +53,43 @@ import static java.util.stream.Collectors.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.core.annotation.AnnotatedElementUtils.*;
-import static org.springframework.core.annotation.AnnotationUtilsTests.*;
+import static org.springframework.core.annotation._004_AnnotationUtilsTests.*;
 
 /**
+ * **2022/9/9 source  获得一个再AnnotationElement上的注解 ， 并且通过这个注解去迭代注解上的注解  ，然后再解析AnnotationElement继承下来的注解
+ * 通过，在解析这个注解
  * Unit tests for {@link AnnotatedElementUtils}.
  *
  * @author Sam Brannen
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
  * @since 4.0.3
- * @see AnnotationUtilsTests
+ * @see _004_AnnotationUtilsTests
  * @see MultipleComposedAnnotationsOnSingleAnnotatedElementTests
  * @see ComposedRepeatableAnnotationsTests
  */
-public class AnnotatedElementUtilsTests {
+public class _003_AnnotatedElementUtilsTests {
 
 	private static final String TX_NAME = Transactional.class.getName();
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
+	/**获取注解上的注解*/
+	@Test
+	public void name() {
+		/**有三个注解*/
+		Annotation[] declaredAnnotations = AnnotationUtils.getDeclaredAnnotations(TransactionalComponent.class);
+		System.out.println();
+
+	}
 
 	@Test
 	public void getMetaAnnotationTypesOnNonAnnotatedClass() {
 		assertTrue(getMetaAnnotationTypes(NonAnnotatedClass.class, TransactionalComponent.class).isEmpty());
 		assertTrue(getMetaAnnotationTypes(NonAnnotatedClass.class, TransactionalComponent.class.getName()).isEmpty());
 	}
-
+	/**深层遍历注解上的注解，返回返回所有扫描到的非JDK的元注解*/
 	@Test
 	public void getMetaAnnotationTypesOnClassWithMetaDepth1() {
 		Set<String> names = getMetaAnnotationTypes(TransactionalComponentClass.class, TransactionalComponent.class);
@@ -101,7 +111,11 @@ public class AnnotatedElementUtilsTests {
 	private Set<String> names(Class<?>... classes) {
 		return stream(classes).map(Class::getName).collect(toSet());
 	}
-
+	/**
+	 * hasMetaAnnotationTypes 查看一个AnnotationElement有没有指定的元注解  ，什么是元注解呢就是  就是不在入口AnnotationElement的第一层上的注解 ， 而是更更深层的注解
+	 * 比如 hasMetaAnnotationTypes(TransactionalComponentClass.class, TransactionalComponent.class.getName())
+	 * 因为TransactionalComponent.class  在 TransactionalComponentClass.class 的第一层上 ，所以他不是元注解而是TransactionalComponentClass.class上的注解，因为他们是直接关系的
+	 * */
 	@Test
 	public void hasMetaAnnotationTypesOnNonAnnotatedClass() {
 		assertFalse(hasMetaAnnotationTypes(NonAnnotatedClass.class, TX_NAME));
@@ -124,6 +138,11 @@ public class AnnotatedElementUtilsTests {
 		assertTrue(hasMetaAnnotationTypes(ComposedTransactionalComponentClass.class, Component.class.getName()));
 		assertFalse(hasMetaAnnotationTypes(ComposedTransactionalComponentClass.class, ComposedTransactionalComponent.class.getName()));
 	}
+	/**
+	 * isAnnotated  是标识一个 AnnotationElement上面是否有指定的注解
+	 *  不支持继承的查找   eg:isAnnotatedOnSubclassWithMetaDepth0
+	 *  支持注解递归向上查找 isAnnotatedOnClassWithMetaDepth1
+	 * */
 
 	@Test
 	public void isAnnotatedForPlainTypes() {
@@ -143,6 +162,7 @@ public class AnnotatedElementUtilsTests {
 		assertTrue(isAnnotated(TransactionalComponentClass.class, TransactionalComponent.class.getName()));
 	}
 
+	/***/
 	@Test
 	public void isAnnotatedOnSubclassWithMetaDepth0() {
 		assertFalse("isAnnotated() does not search the class hierarchy.",
@@ -174,7 +194,7 @@ public class AnnotatedElementUtilsTests {
 	public void getAllAnnotationAttributesOnNonAnnotatedClass() {
 		assertNull(getAllAnnotationAttributes(NonAnnotatedClass.class, TX_NAME));
 	}
-
+	/**得到指定注解上的所有属性  用到时 观察者模式*/
 	@Test
 	public void getAllAnnotationAttributesOnClassWithLocalAnnotation() {
 		MultiValueMap<String, Object> attributes = getAllAnnotationAttributes(TxConfig.class, TX_NAME);
@@ -182,6 +202,9 @@ public class AnnotatedElementUtilsTests {
 		assertEquals("value for TxConfig.", asList("TxConfig"), attributes.get("value"));
 	}
 
+	/**
+	 * 遍历继承类上的所有 带有这个注解的AnnotationElement，然后解析出来他们的值 ，进行合并
+	 * */
 	@Test
 	public void getAllAnnotationAttributesOnClassWithLocalComposedAnnotationAndInheritedAnnotation() {
 		MultiValueMap<String, Object> attributes = getAllAnnotationAttributes(SubClassWithInheritedAnnotation.class, TX_NAME);
@@ -189,6 +212,9 @@ public class AnnotatedElementUtilsTests {
 		assertEquals(asList("composed2", "transactionManager"), attributes.get("qualifier"));
 	}
 
+	/**会找到 已继承的注解可以获取，  大师不会迭代每一层父类上的注解 只会拿入口AnnotationElement所能继承的所有的注解
+	 *
+	 * */
 	@Test
 	public void getAllAnnotationAttributesFavorsInheritedAnnotationsOverMoreLocallyDeclaredComposedAnnotations() {
 		MultiValueMap<String, Object> attributes = getAllAnnotationAttributes(SubSubClassWithInheritedAnnotation.class, TX_NAME);

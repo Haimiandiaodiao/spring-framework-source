@@ -22,6 +22,8 @@ import java.lang.reflect.Method;
 import org.springframework.lang.Nullable;
 
 /**
+ * **2022/9/5 source   r负责从基础来源（例如Annotation或Map ）中提取注释属性值。
+ *
  * An {@code AnnotationAttributeExtractor} is responsible for
  * {@linkplain #getAttributeValue extracting} annotation attribute values
  * from an underlying {@linkplain #getSource source} such as an

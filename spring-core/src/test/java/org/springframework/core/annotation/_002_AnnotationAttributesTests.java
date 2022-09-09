@@ -25,7 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import org.springframework.core.annotation.AnnotationUtilsTests.ImplicitAliasesContextConfig;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.ImplicitAliasesContextConfig;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

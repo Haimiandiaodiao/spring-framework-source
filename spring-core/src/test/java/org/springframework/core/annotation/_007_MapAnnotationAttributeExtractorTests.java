@@ -31,7 +31,7 @@ import org.springframework.util.MultiValueMap;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static org.springframework.core.annotation.AnnotationUtilsTests.*;
+import static org.springframework.core.annotation._004_AnnotationUtilsTests.*;
 
 /**
  * Unit tests for {@link MapAnnotationAttributeExtractor}.
@@ -40,7 +40,7 @@ import static org.springframework.core.annotation.AnnotationUtilsTests.*;
  * @since 4.2.1
  */
 @SuppressWarnings("serial")
-public class MapAnnotationAttributeExtractorTests extends AbstractAliasAwareAnnotationAttributeExtractorTestCase {
+public class _007_MapAnnotationAttributeExtractorTests extends _005_AbstractAliasAwareAnnotationAttributeExtractorTestCase {
 
 	@Override
 	protected AnnotationAttributeExtractor<?> createExtractorFor(Class<?> clazz, String expected, Class<? extends Annotation> annotationType) {

@@ -21,13 +21,13 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
-import org.springframework.core.annotation.AnnotationUtilsTests.GroovyImplicitAliasesContextConfigClass;
-import org.springframework.core.annotation.AnnotationUtilsTests.ImplicitAliasesContextConfig;
-import org.springframework.core.annotation.AnnotationUtilsTests.Location1ImplicitAliasesContextConfigClass;
-import org.springframework.core.annotation.AnnotationUtilsTests.Location2ImplicitAliasesContextConfigClass;
-import org.springframework.core.annotation.AnnotationUtilsTests.Location3ImplicitAliasesContextConfigClass;
-import org.springframework.core.annotation.AnnotationUtilsTests.ValueImplicitAliasesContextConfigClass;
-import org.springframework.core.annotation.AnnotationUtilsTests.XmlImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.GroovyImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.ImplicitAliasesContextConfig;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.Location1ImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.Location2ImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.Location3ImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.ValueImplicitAliasesContextConfigClass;
+import org.springframework.core.annotation._004_AnnotationUtilsTests.XmlImplicitAliasesContextConfigClass;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  * @author Sam Brannen
  * @since 4.2.1
  */
-public abstract class AbstractAliasAwareAnnotationAttributeExtractorTestCase {
+public abstract class _005_AbstractAliasAwareAnnotationAttributeExtractorTestCase {
 
 	@Test
 	public void getAttributeValueForImplicitAliases() throws Exception {

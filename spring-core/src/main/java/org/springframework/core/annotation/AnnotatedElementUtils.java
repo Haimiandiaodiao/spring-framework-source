@@ -34,8 +34,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
 /**
+ * **2022/9/8 source  通用的方法找到注解  元注解 可重复的注解 在可以添加注解的元素上
+ *
+ *
  * General utility methods for finding annotations, meta-annotations, and
  * repeatable annotations on {@link AnnotatedElement AnnotatedElements}.
  *
