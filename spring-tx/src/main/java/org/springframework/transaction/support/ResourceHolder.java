@@ -39,6 +39,7 @@ public interface ResourceHolder {
 	void unbound();
 
 	/**
+	 * 确定此持有人是否被视为“无效”，即作为前一个线程的剩余物
 	 * Determine whether this holder is considered as 'void',
 	 * i.e. as a leftover from a previous thread.
 	 */

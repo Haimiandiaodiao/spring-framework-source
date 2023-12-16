@@ -19,6 +19,9 @@ package org.springframework.core.convert.converter;
 import org.springframework.lang.Nullable;
 
 /**
+ * 2022/9/16 source  转换器将一个  S对象转换到T对象 ，而且实现这个接口的类 要是线程安全的，是个无状态Bean
+ *  实现类也可以实现 ConditionalConverter 来标识转换的条件
+ *
  * A converter converts a source object of type {@code S} to a target of type {@code T}.
  *
  * <p>Implementations of this interface are thread-safe and can be shared.

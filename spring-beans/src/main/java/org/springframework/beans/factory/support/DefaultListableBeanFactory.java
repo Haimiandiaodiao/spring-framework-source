@@ -1172,7 +1172,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		return null;
 	}
-
+	/**分析依赖关系 */
 	@Override
 	@Nullable
 	public Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
@@ -1230,7 +1230,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							converter.convertIfNecessary(value, type, descriptor.getMethodParameter()));
 				}
 			}
-
+			//解析多值Bean如Map List Set
 			Object multipleBeans = resolveMultipleBeans(descriptor, beanName, autowiredBeanNames, typeConverter);
 			if (multipleBeans != null) {
 				return multipleBeans;
@@ -1728,7 +1728,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return false;
 			}
 			@Override
-			public Object resolveCandidate(String beanName, Class<?> requiredType, BeanFactory beanFactory) {
+			public Object resolveCandidate(String beanName, Class<?> requiredType, BeanFactory beanFactory) {//内部也是调用了beanFactory的getBean方法
 				return (!ObjectUtils.isEmpty(args) ? beanFactory.getBean(beanName, args) :
 						super.resolveCandidate(beanName, requiredType, beanFactory));
 			}

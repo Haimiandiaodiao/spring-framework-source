@@ -55,6 +55,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
+ * 2022/9/16 source 通用转换服务  提供一个类型到另一种类型的转换 这个包下的提供类型转换的功能
  * Unit tests for {@link GenericConversionService}.
  *
  * <p>In this package for access to package-local converter implementations.
@@ -65,7 +66,7 @@ import static org.junit.Assert.*;
  * @author David Haraburda
  * @author Sam Brannen
  */
-public class GenericConversionServiceTests {
+public class _001_GenericConversionServiceTests {
 
 	private final GenericConversionService conversionService = new GenericConversionService();
 

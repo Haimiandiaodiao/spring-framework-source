@@ -17,8 +17,12 @@
 package org.springframework.transaction;
 
 import java.io.Flushable;
-
 /**
+ * **2022/11/15 source
+ * 事务状态的表示。
+ * 事务代码可以使用它来检索状态信息，并以编程方式请求回滚（而不是抛出导致隐式回滚的异常）。
+ * 包括SavepointManager接口以提供对保存点管理工具的访问。请注意，只有在底层事务管理器支持的情况下，保存点管理才可用。
+ *
  * Representation of the status of a transaction.
  *
  * <p>Transactional code can use this to retrieve status information,

@@ -32,7 +32,10 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-
+/**
+ * 根 bean 定义表示合并的 bean 定义，该定义在运行时支持 Spring BeanFactory 中的特定 bean。它可能是从多个相互继承的原始 bean 定义创建的，通常注册为GenericBeanDefinitions 。根 bean 定义本质上是运行时的“统一”bean 定义视图。
+ * 根 bean 定义还可用于在配置阶段注册各个 bean 定义。然而，从 Spring 2.5 开始，以编程方式注册 bean 定义的首选方法是GenericBeanDefinition类。 GenericBeanDefinition 的优点是它允许动态定义父依赖项，而不是将角色“硬编码”为根 bean 定义。
+ * */
 /**
  * A root bean definition represents the merged bean definition that backs
  * a specific bean in a Spring BeanFactory at runtime. It might have been created
@@ -51,49 +54,55 @@ import org.springframework.util.Assert;
  * @see GenericBeanDefinition
  * @see ChildBeanDefinition
  */
+
 @SuppressWarnings("serial")
 public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	@Nullable
+	//记录别名的保存
 	private BeanDefinitionHolder decoratedDefinition;
 
+	//可以挂载注解的元素
 	@Nullable
 	private AnnotatedElement qualifiedElement;
-
+	//允许缓存
 	boolean allowCaching = true;
 
 	boolean isFactoryMethodUnique = false;
-
 	@Nullable
+	//指定此 Bean 定义的目标类型
 	volatile ResolvableType targetType;
 
 	/** Package-visible field for caching the determined Class of a given bean definition. */
+	//解析之后的类型
 	@Nullable
 	volatile Class<?> resolvedTargetType;
 
 	/** Package-visible field for caching the return type of a generically typed factory method. */
+	//工厂方法返回的类型
 	@Nullable
 	volatile ResolvableType factoryMethodReturnType;
 
 	/** Package-visible field for caching a unique factory method candidate for introspection. */
+	//自省获得的工厂方法静态方法工厂  @Bean注解的方法其实就是工厂方法  和 factoryBeanName属性配合使用   缓存已经解析过的工厂方法
 	@Nullable
 	volatile Method factoryMethodToIntrospect;
 
 	/** Common lock for the four constructor fields below. */
 	final Object constructorArgumentLock = new Object();
 
-	/** Package-visible field for caching the resolved constructor or factory method. */
+	/** Package-visible field for caching the resolved constructor or factory method. 缓存用户存放已经解析的工厂方法，避免后续重复解析*/
 	@Nullable
 	Executable resolvedConstructorOrFactoryMethod;
 
-	/** Package-visible field that marks the constructor arguments as resolved. */
+	/** Package-visible field that marks the constructor arguments as resolved. 标识构造方法参数已经得到了解析*/
 	boolean constructorArgumentsResolved = false;
 
-	/** Package-visible field for caching fully resolved constructor arguments. */
+	/** Package-visible field for caching fully resolved constructor arguments.  用户缓存已经解析的构造函数参数*/
 	@Nullable
 	Object[] resolvedConstructorArguments;
 
-	/** Package-visible field for caching partly prepared constructor arguments. */
+	/** Package-visible field for caching partly prepared constructor arguments. 和resolvedConstructorArguments的功效是一致，只是这些参数需要进行一层解析*/
 	@Nullable
 	Object[] preparedConstructorArguments;
 
@@ -103,7 +112,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. */
 	boolean postProcessed = false;
 
-	/** Package-visible field that indicates a before-instantiation post-processor having kicked in. */
+	/** Package-visible field that indicates a before-instantiation post-processor having kicked in.   是一个标志，用于指示在实例化 Bean 之前是否已经解析了 "before-instantiation" 的回调*/
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 

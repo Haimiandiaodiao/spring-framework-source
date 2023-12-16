@@ -83,6 +83,11 @@ import org.springframework.util.StringUtils;
  * @see #forInstance(Object)
  * @see ResolvableTypeProvider
  */
+/**
+ * 用于在运行时获取和操作 Java 类型信息。它提供了一种更灵活和类型安全的方式来处理泛型类型、嵌套类型和参数化类型
+ * ResolvableType 是 Spring 框架中用于处理类型信息的强大工具，特别适用于需要处理泛型和复杂类型的场景
+ *
+ * */
 @SuppressWarnings("serial")
 public class ResolvableType implements Serializable {
 

@@ -29,6 +29,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MimeType;
 
 /**
+ * 2022/9/16 source 将DataBuffer输入流解码为<T>类型元素的输出流的策略
+ *
  * Strategy for decoding a {@link DataBuffer} input stream into an output stream
  * of elements of type {@code <T>}.
  *

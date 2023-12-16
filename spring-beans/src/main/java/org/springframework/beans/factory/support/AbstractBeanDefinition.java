@@ -54,9 +54,9 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Mark Fisher
- * @see GenericBeanDefinition
- * @see RootBeanDefinition
- * @see ChildBeanDefinition
+ * @see GenericBeanDefinition    提供继承的父Bean 定义
+ * @see RootBeanDefinition       不支持继承的Bean定义
+ * @see ChildBeanDefinition		 继承关系中子Bean的定义
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccessor
@@ -146,7 +146,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 
 	@Nullable
-	//bean的class
+	//bean的class的全限定
 	private volatile Object beanClass;
 
 	@Nullable
@@ -164,39 +164,42 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	//依赖检查时的依赖
 	private String[] dependsOn;
-	//是否自动装配
+	//是否作将自己作为自动装配中的备用Bean
 	private boolean autowireCandidate = true;
-	//是否是主bean
+	//是否是主bean，可以作为注入备选Bean的主Bean
 	private boolean primary = false;
 	//自动装配的预选集
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
-
+	//===========================方法工厂用来创建Bean的方法==========
 	@Nullable
-	//实例化支持
+	//实例化支持 - 也算时工厂的一种算是方法工厂 指定用于创建 bean 实例的回调，作为以声明方式指定的工厂方法的替代方法
 	private Supplier<?> instanceSupplier;
 	//非公开的访问允许
 	private boolean nonPublicAccessAllowed = true;
 	//宽松的构造函数解析
 	private boolean lenientConstructorResolution = true;
-
+	//===========工厂Bean用来创建实例的功能=====
 	@Nullable
 	//工厂的Bean的名字
 	private String factoryBeanName;
 
 	@Nullable
-	//工厂中使用方法的名字
+	//和上面factoryBeanName配合使用，工厂Bean中的方法
 	private String factoryMethodName;
-
+	//================
+	//==========注入方式====
 	@Nullable
-	//构造方法参数
+	//构造方法注入
 	private ConstructorArgumentValues constructorArgumentValues;
 
 	@Nullable
-	//可变属性值
+	//setter 方法注入的设置
 	private MutablePropertyValues propertyValues;
+	//====================
 	//方法覆盖
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
+	//=========初始化和销毁=====
 	@Nullable
 	//初始化方法
 	private String initMethodName;
@@ -204,6 +207,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	//销毁方法
 	private String destroyMethodName;
+	//==========================
+
 	//强制初始化方法
 	private boolean enforceInitMethod = true;
 	//强制销毁方法
@@ -214,7 +219,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private int role = BeanDefinition.ROLE_APPLICATION;
 
 	@Nullable
-	//描述
+	//bean定义的描述
 	private String description;
 
 	@Nullable
@@ -989,7 +994,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		this.synthetic = synthetic;
 	}
 
-	/**
+	/**，表示它是由 Spring 合成的，而不是用户显式定义的
 	 * Return whether this bean definition is 'synthetic', that is,
 	 * not defined by the application itself.
 	 */

@@ -55,6 +55,10 @@ import org.springframework.util.StringUtils;
  * @since 1.2
  * @see AbstractAutowireCapableBeanFactory
  */
+/**
+ * 用于 bean 工厂实现的帮助器类，将 bean 定义对象中包含的值解析为应用于目标 bean 实例的实际值。
+ * 对AbstractBeanFactory和普通BeanDefinition对象进行操作。由AbstractAutowireCapableBeanFactory使用
+ * */
 class BeanDefinitionValueResolver {
 
 	private final AbstractBeanFactory beanFactory;

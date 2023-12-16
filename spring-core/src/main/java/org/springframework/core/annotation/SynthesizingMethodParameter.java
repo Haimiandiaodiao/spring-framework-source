@@ -23,8 +23,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
 import org.springframework.core.MethodParameter;
-
 /**
+ * 2022/9/16 source  对方法上的注解进行解析 其上的@AliasFor 注解
  * A {@link MethodParameter} variant which synthesizes annotations that
  * declare attribute aliases via {@link AliasFor @AliasFor}.
  *
