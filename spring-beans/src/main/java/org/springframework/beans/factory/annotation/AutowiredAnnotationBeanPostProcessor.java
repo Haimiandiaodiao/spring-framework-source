@@ -642,7 +642,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			super(method, pd);
 			this.required = required;
 		}
-
+		/**
+		 *  autowire 做注入用的方法  本质还是去 BeanFactory中获取数据的操作
+		 */
 		@Override
 		protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 			if (checkPropertySkipping(pvs)) {
