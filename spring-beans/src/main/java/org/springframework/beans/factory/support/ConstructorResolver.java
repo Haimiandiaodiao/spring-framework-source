@@ -81,7 +81,7 @@ import org.springframework.util.StringUtils;
 class ConstructorResolver {
 
 	private static final Object[] EMPTY_ARGS = new Object[0];
-
+	//标记当前正在执行解析的解析点
 	private static final NamedThreadLocal<InjectionPoint> currentInjectionPoint =
 			new NamedThreadLocal<>("Current injection point");
 

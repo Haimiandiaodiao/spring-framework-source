@@ -260,11 +260,11 @@ class ConfigurationClassParser {
 			throws IOException {
 
 		if (configClass.getMetadata().isAnnotated(Component.class.getName())) {
-			// Recursively process any member (nested) classes first
+			// Recursively process any member (nested) classes first首先递归处理任何成员（嵌套）类
 			processMemberClasses(configClass, sourceClass);
 		}
 
-		// Process any @PropertySource annotations
+		// Process any @PropertySource annotations 处理@PropertySource注解
 		for (AnnotationAttributes propertySource : AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), PropertySources.class,
 				org.springframework.context.annotation.PropertySource.class)) {
@@ -338,7 +338,7 @@ class ConfigurationClassParser {
 		return null;
 	}
 
-	/**
+	/**注册恰好是配置类本身的成员（嵌套）类
 	 * Register member (nested) classes that happen to be configuration classes themselves.
 	 */
 	private void processMemberClasses(ConfigurationClass configClass, SourceClass sourceClass) throws IOException {

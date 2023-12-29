@@ -42,7 +42,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
-/**
+/**即将注入的特定依赖项的描述符。包装构造函数参数、方法参数或字段，允许统一访问它们的元数据
  * Descriptor for a specific dependency that is about to be injected.
  * Wraps a constructor parameter, a method parameter or a field,
  * allowing unified access to their metadata.
@@ -53,22 +53,22 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 public class DependencyDescriptor extends InjectionPoint implements Serializable {
 
-	private final Class<?> declaringClass;
+	private final Class<?> declaringClass;//声明的类
 
 	@Nullable
-	private String methodName;
+	private String methodName;//方法名
 
 	@Nullable
-	private Class<?>[] parameterTypes;
+	private Class<?>[] parameterTypes; //参数类型列表
 
-	private int parameterIndex;
+	private int parameterIndex;//参数索引
 
 	@Nullable
-	private String fieldName;
+	private String fieldName;//属性名称
 
-	private final boolean required;
+	private final boolean required;//是否必须
 
-	private final boolean eager;
+	private final boolean eager;//d
 
 	private int nestingLevel = 1;
 

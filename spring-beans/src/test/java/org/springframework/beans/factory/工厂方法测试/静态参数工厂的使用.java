@@ -179,6 +179,27 @@ public class 静态参数工厂的使用 {
 
 
 	}
+	@Data
+	@AllArgsConstructor
+	public static class C{
+
+	}
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class D{
+		@Autowired
+		private C c;
+	}
+
+	@Data
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class E{
+
+		@Autowired
+		private C c;
+	}
 
 
 	/***
@@ -187,7 +208,7 @@ public class 静态参数工厂的使用 {
 	 *
 	 */
 	@Test
-	public void 循环依赖() {
+	public void 自动注入解决循环依赖() {
 
 		AbstractBeanDefinition a = BeanDefinitionBuilder.genericBeanDefinition(A.class).addPropertyReference("b","b").getBeanDefinition();
 		AbstractBeanDefinition b = BeanDefinitionBuilder.genericBeanDefinition(B.class).addPropertyReference("a","a").getBeanDefinition();
@@ -202,17 +223,17 @@ public class 静态参数工厂的使用 {
 
 
 	@Test
-	public void 自动注入的方法() {
+	public void 自动注入的方法AutowiredAnnotationBeanPostProcessor测试() {
 		AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
 		autowiredAnnotationBeanPostProcessor.setBeanFactory(beanRegistry);
 		beanRegistry.addBeanPostProcessor(autowiredAnnotationBeanPostProcessor);
-		AbstractBeanDefinition a = BeanDefinitionBuilder.genericBeanDefinition(A.class).getBeanDefinition();
-		AbstractBeanDefinition b = BeanDefinitionBuilder.genericBeanDefinition(B.class).getBeanDefinition();
+		AbstractBeanDefinition a = BeanDefinitionBuilder.genericBeanDefinition(C.class).getBeanDefinition();
+		AbstractBeanDefinition b = BeanDefinitionBuilder.genericBeanDefinition(D.class).getBeanDefinition();
 
-		beanRegistry.registerBeanDefinition("a",a);
-		beanRegistry.registerBeanDefinition("b",b);
+		beanRegistry.registerBeanDefinition("c",a);
+		beanRegistry.registerBeanDefinition("d",b);
 
-		Object A = beanRegistry.getBean("a");
+		Object A = beanRegistry.getBean("d");
 		System.out.println(JSON.toJSONString(A));
 	}
 }

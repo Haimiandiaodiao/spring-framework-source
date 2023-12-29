@@ -365,7 +365,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 */
 	Object resolveBeanByName(String name, DependencyDescriptor descriptor) throws BeansException;
 
-	/**
+	/**对Bean 定义解析指定依赖属性的支持
 	 * Resolve the specified dependency against the beans defined in this factory.
 	 * @param descriptor the descriptor for the dependency (field/method/constructor)
 	 * @param requestingBeanName the name of the bean which declares the given dependency
