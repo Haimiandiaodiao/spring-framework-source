@@ -929,7 +929,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return (objectType.value != null && Object.class != objectType.value ? objectType.value : null);
 	}
 
-	/**
+	/**获取对指定 bean 的早期访问的引用，通常是为了解决循环引用
 	 * Obtain a reference for early access to the specified bean,
 	 * typically for the purpose of resolving a circular reference.
 	 * @param beanName the name of the bean (for error handling purposes)
